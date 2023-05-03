@@ -2,8 +2,10 @@ package br.com.postech.techchallenge.controllers;
 
 import br.com.postech.techchallenge.dtos.resquests.PessoaDtoRequest;
 import br.com.postech.techchallenge.entities.enums.SexoEnum;
+import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.utils.TestConverterUtil;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -41,6 +43,9 @@ class PessoasControllerImplTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private PessoaRepositoryJpa pessoaRepositoryJpa;
+
   private PessoaDtoRequest pessoaDtoRequest;
 
   @BeforeEach
@@ -56,7 +61,9 @@ class PessoasControllerImplTest {
   }
 
   @AfterEach
-  void destruidorDeCenario() { }
+  void destruidorDeCenario() {
+    this.pessoaRepositoryJpa.deleteAll();
+  }
 
   @Test
   @Order(1)
@@ -70,6 +77,27 @@ class PessoasControllerImplTest {
         .accept(MediaType.APPLICATION_JSON))
       .andExpect(MockMvcResultMatchers.status().isCreated())
       .andDo(MockMvcResultHandlers.print());
+  }
+
+  @Test
+  @Order(2)
+  @DisplayName("Post - Cadastrar - checagem de persistência")
+  void devePersistirCorretoNoDatabase_quandoCadastrar() throws Exception {
+
+    mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding(UTF8)
+        .content(TestConverterUtil.converterObjetoParaJson(pessoaDtoRequest))
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(MockMvcResultMatchers.status().isCreated())
+      .andDo(MockMvcResultHandlers.print());
+
+    var pessoaPersistida = this.pessoaRepositoryJpa.findByCpf(CPF).get();
+
+    Assertions.assertEquals(NOME, pessoaPersistida.getNome());
+    Assertions.assertEquals(CPF, pessoaPersistida.getCpf());
+    Assertions.assertEquals(DATA_NASCIMENTO, pessoaPersistida.getDataNascimento());
+    Assertions.assertEquals(SEXO, pessoaPersistida.getSexo().toString());
   }
 }
 
