@@ -25,11 +25,11 @@ public class PessoasControllerImpl implements PoliticaPessoaController {
     var response = this.pessoaService.cadastrar(pessoaDtoRequest);
 
     return ResponseEntity
-        .created(uriComponentsBuilder
-          .path("/v1/pessoas/{id}")
-          .buildAndExpand(response.getId())
-          .toUri())
-      .body(response);
+      .created(uriComponentsBuilder
+        .path("/v1/pessoas/{id}")
+        .buildAndExpand(response.getId())
+        .toUri())
+    .body(response);
   }
 
 }
