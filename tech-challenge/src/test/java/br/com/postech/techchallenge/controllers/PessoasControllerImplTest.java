@@ -38,7 +38,7 @@ class PessoasControllerImplTest {
 
   public static final String CPF1 = "45706093091";
 
-  public static final String CPF2 = "45706093091";
+  public static final String CPF2 = "12353577083";
 
   public static final String DATA_NASCIMENTO = "20/10/1970";
 
@@ -114,7 +114,7 @@ class PessoasControllerImplTest {
     Assertions.assertEquals(NOME2, pessoaPersistida.getNome());
     Assertions.assertEquals(CPF2, pessoaPersistida.getCpf());
     Assertions.assertEquals(DATA_NASCIMENTO, pessoaPersistida.getDataNascimento());
-    Assertions.assertEquals(SEXO, pessoaPersistida.getSexo().toString());
+    Assertions.assertEquals(SEXO, pessoaPersistida.getSexo());
     Assertions.assertEquals(PARENTESCO, pessoaPersistida.getParentesco());
   }
 
@@ -132,7 +132,7 @@ class PessoasControllerImplTest {
           MockMvcResultMatchers.jsonPath("$.nome", Matchers.equalToIgnoringCase(NOME2)),
           MockMvcResultMatchers.jsonPath("$.cpf", Matchers.equalTo(CPF2)),
           MockMvcResultMatchers.jsonPath("$.dataNascimento", Matchers.equalTo(DATA_NASCIMENTO)),
-          MockMvcResultMatchers.jsonPath("$.sexo", Matchers.equalTo(SEXO)),
+          MockMvcResultMatchers.jsonPath("$.sexo", Matchers.equalTo(SEXO.toString())),
           MockMvcResultMatchers.jsonPath("$.parentesco", Matchers.equalTo(PARENTESCO)))
       .andDo(MockMvcResultHandlers.print());
   }
