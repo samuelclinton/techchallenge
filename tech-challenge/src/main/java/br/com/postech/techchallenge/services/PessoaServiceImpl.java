@@ -3,8 +3,10 @@ package br.com.postech.techchallenge.services;
 import br.com.postech.techchallenge.dtos.responses.PessoaDtoResponse;
 import br.com.postech.techchallenge.dtos.resquests.PessoaDtoRequest;
 import br.com.postech.techchallenge.entities.Pessoa;
+import br.com.postech.techchallenge.exceptions.http404.PessoaNaoEncontradaException;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.utilitarios.PoliticaMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,21 @@ public class PessoaServiceImpl implements PoliticaPessoaService {
       .map(this.pessoaRepositoryJpa::save)
       .map(entidade -> this.mapper.converterEntidadeParaDtoResponse(entidade, PessoaDtoResponse.class))
       .orElseThrow();
+  }
+
+  @Transactional
+  @Override
+  public PessoaDtoResponse atualizar(final Long id, final PessoaDtoRequest pessoaDtoRequest) {
+
+    return this.pessoaRepositoryJpa.findById(id)
+        .map(pessoa -> {
+          var entidadeNovasInfos = this.mapper.converterDtoRequestParaEntidade(pessoaDtoRequest, Pessoa.class);
+          BeanUtils.copyProperties(entidadeNovasInfos, pessoa, "id");
+          pessoa.setDataCadastro(Instant.now());
+          return pessoa;
+        })
+        .map(pessoa -> this.mapper.converterEntidadeParaDtoResponse(pessoa, PessoaDtoResponse.class))
+        .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
 }

@@ -6,6 +6,7 @@ import br.com.postech.techchallenge.services.PoliticaPessoaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,17 @@ public class PessoasControllerImpl implements PoliticaPessoaController {
         .buildAndExpand(response.getId())
         .toUri())
     .body(response);
+  }
+
+  @Override
+  public ResponseEntity<PessoaDtoResponse> atualizar(@PathVariable(name = "id") final Long id,
+                                           @RequestBody @Valid final PessoaDtoRequest pessoaDtoRequest) {
+
+    var response = this.pessoaService.atualizar(id, pessoaDtoRequest);
+
+    return ResponseEntity
+        .ok()
+        .body(response);
   }
 
 }
