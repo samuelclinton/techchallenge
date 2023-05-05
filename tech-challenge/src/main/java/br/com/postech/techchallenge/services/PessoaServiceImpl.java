@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,7 +59,7 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
         .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
   @Override
   public void deletar(final Long id) {
 
@@ -75,13 +76,12 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
   public Page<PessoaDtoResponse> pesquisar(final PessoaFiltro filtro, final Pageable paginacao) {
 
     return Optional.of(filtro)
-        .map(parametrosDePesquisa -> {
-          var entidades = this.pessoaRepositoryJpa.findAll(PessoaSpecification.consultaDinamicaComFiltro(parametrosDePesquisa), paginacao);
-          return entidades;
-        })
-        .map(entidades -> this.mapper.converterPaginaDeEntidadeParaPaginaDtoResponse(entidades, PessoaDtoResponse.class))
-        .orElseThrow();
-
+      .map(parametrosDePesquisa -> {
+        var entidades = this.pessoaRepositoryJpa.findAll(PessoaSpecification.consultaDinamicaComFiltro(parametrosDePesquisa), paginacao);
+        return entidades;
+      })
+      .map(entidades -> this.mapper.converterPaginaDeEntidadeParaPaginaDtoResponse(entidades, PessoaDtoResponse.class))
+      .orElseThrow();
   }
 }
 

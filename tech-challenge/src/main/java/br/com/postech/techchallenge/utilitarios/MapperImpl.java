@@ -25,9 +25,9 @@ public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoRespo
 
   @Override
   public List<R> converterEntidadesParaListaDeDtoResponse(List<E> entities, Class<R> rClass) {
-    final var dtos = new ArrayList<R>();
-    entities.forEach(entity -> dtos.add(converterEntidadeParaDtoResponse(entity, rClass)));
-    return dtos;
+    return entities.stream()
+        .map(entidade -> this.converterEntidadeParaDtoResponse(entidade, rClass))
+        .toList();
   }
 
   @Override
