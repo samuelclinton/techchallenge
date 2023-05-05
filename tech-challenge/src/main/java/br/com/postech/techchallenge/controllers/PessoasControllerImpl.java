@@ -22,7 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class PessoasControllerImpl implements PoliticaController<PessoaDtoRequest, PessoaDtoResponse, PessoaFiltro, Long> {
 
   @Autowired
-  private PoliticaService pessoaService;
+  private PoliticaService<PessoaDtoRequest, PessoaDtoResponse, PessoaFiltro, Long> pessoaService;
 
   @Override
   public ResponseEntity<PessoaDtoResponse> cadastrar(@RequestBody @Valid final PessoaDtoRequest pessoaDtoRequest,
@@ -35,7 +35,7 @@ public class PessoasControllerImpl implements PoliticaController<PessoaDtoReques
         .path("/v1/pessoas/{id}")
         .buildAndExpand(response.getId())
         .toUri())
-    .body((PessoaDtoResponse) response);
+    .body(response);
   }
 
   @Override
@@ -46,7 +46,7 @@ public class PessoasControllerImpl implements PoliticaController<PessoaDtoReques
 
     return ResponseEntity
         .ok()
-        .body((PessoaDtoResponse) response);
+        .body(response);
   }
 
   @Override
