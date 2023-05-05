@@ -3,6 +3,7 @@ package br.com.postech.techchallenge.utilitarios;
 import br.com.postech.techchallenge.dtos.responses.PoliticaDtoResponse;
 import br.com.postech.techchallenge.dtos.resquests.PoliticaDtoRequest;
 import br.com.postech.techchallenge.entities.PoliticaEntity;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface PoliticaMapper<T extends PoliticaDtoRequest, R extends Politica
     List<R> converterEntidadesParaListaDeDtoResponse(List<E> entities, Class<R> eClass);
 
     R converterEntidadeParaDtoResponse(E entity, Class<R> eClass);
+
+    Page<R> converterPaginaDeEntidadeParaPaginaDtoResponse(Page<E> entidades, Class<R> eClass);
 }
 

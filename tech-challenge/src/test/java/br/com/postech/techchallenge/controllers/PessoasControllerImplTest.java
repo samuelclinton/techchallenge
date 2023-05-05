@@ -158,6 +158,31 @@ class PessoasControllerImplTest {
     Assertions.assertEquals(SEXO, pessoaDoDatabase.getSexo());
     Assertions.assertEquals(PARENTESCO, pessoaDoDatabase.getParentesco());
   }
+
+  @Test
+  @Order(5)
+  @DisplayName("Delete - Deletar - 204")
+  void deveRetornarNoContent204_quandoDeletar() throws Exception {
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(ENDPOINT.concat("/" + pessoaSalva.getId())))
+        .andExpect(MockMvcResultMatchers.status().isNoContent())
+      .andDo(MockMvcResultHandlers.print());
+  }
+
+  @Test
+  @Order(6)
+  @DisplayName("Delete - Deletar - validar persistência")
+  void deveRemoverDadoPersistidoNoDatabase_quandoDeletar() throws Exception {
+
+    mockMvc.perform(MockMvcRequestBuilders.delete(ENDPOINT.concat("/" + pessoaSalva.getId())))
+        .andExpect(MockMvcResultMatchers.status().isNoContent())
+      .andDo(MockMvcResultHandlers.print());
+
+    var existe = this.pessoaRepositoryJpa.findById(pessoaSalva.getId())
+        .isPresent();
+
+    Assertions.assertEquals(false, existe);
+  }
 }
 
 
