@@ -35,28 +35,28 @@ public class PessoasControllerImpl implements PoliticaController<PessoaDtoReques
         .path("/v1/pessoas/{id}")
         .buildAndExpand(response.getId())
         .toUri())
-    .body(response);
+      .body(response);
   }
 
   @Override
-  public ResponseEntity<PessoaDtoResponse> atualizar(@PathVariable(name = "id") final Long id,
-                                           @RequestBody @Valid final PessoaDtoRequest pessoaDtoRequest) {
+  public ResponseEntity<PessoaDtoResponse> atualizar(@PathVariable(name = "id") final Long idPessoa,
+                                        @RequestBody @Valid final PessoaDtoRequest pessoaDtoRequest) {
 
-    var response = this.pessoaService.atualizar(id, pessoaDtoRequest);
+    var response = this.pessoaService.atualizar(idPessoa, pessoaDtoRequest);
 
     return ResponseEntity
-        .ok()
-        .body(response);
+      .ok()
+      .body(response);
   }
 
   @Override
-  public ResponseEntity<?> deletar(@PathVariable(name = "id") final Long id) {
+  public ResponseEntity<?> deletar(@PathVariable(name = "id") final Long idPessoa) {
 
-    this.pessoaService.deletar(id);
+    this.pessoaService.deletar(idPessoa);
 
     return ResponseEntity
-        .noContent()
-        .build();
+      .noContent()
+      .build();
   }
 
   @Override

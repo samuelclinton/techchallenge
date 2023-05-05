@@ -1,9 +1,7 @@
 package br.com.postech.techchallenge.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.postech.techchallenge.entities.enums.EstadosEnum;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +32,6 @@ public class Endereco implements PoliticaEntity {
     private String cidade;
 
     @Column(nullable = false, length = 2)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private EstadosEnum estado;
 }
