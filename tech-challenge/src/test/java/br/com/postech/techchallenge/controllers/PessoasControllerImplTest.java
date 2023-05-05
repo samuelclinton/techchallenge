@@ -5,6 +5,7 @@ import br.com.postech.techchallenge.entities.Pessoa;
 import br.com.postech.techchallenge.entities.enums.SexoEnum;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.utils.TestConverterUtil;
+import com.github.javafaker.Faker;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -51,6 +52,8 @@ class PessoasControllerImplTest {
 
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
+
+  public Faker faker = new Faker();
 
   private Pessoa pessoaSalva;
 
@@ -182,6 +185,28 @@ class PessoasControllerImplTest {
         .isPresent();
 
     Assertions.assertEquals(false, existe);
+  }
+
+  @Test
+  @Order(7)
+  @DisplayName("Pesquisar - Fluxo Principal I - dois objetos")
+  void deveRetornarDoisObjetos_quandoPesquisarTodos() throws Exception {
+
+    var pessoaSalva2 = Pessoa.builder()
+      .nome(faker.name().fullName())
+      .cpf("30872708063")
+      .dataNascimento(faker.date().birthday(18, 105).toString())
+      .sexo(SEXO)
+      .parentesco(faker.relationships().parent())
+      .build();
+    this.pessoaRepositoryJpa.save(pessoaSalva2);
+
+    mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT)
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding(UTF8)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Matchers.equalTo(2)))
+      .andDo(MockMvcResultHandlers.print());
   }
 }
 
