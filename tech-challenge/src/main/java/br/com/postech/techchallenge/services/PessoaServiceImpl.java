@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -27,7 +29,7 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
   public PessoaDtoResponse cadastrar(final PessoaDtoRequest pessoaDtoRequest) {
 
@@ -42,7 +44,7 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
       .orElseThrow();
   }
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
   public PessoaDtoResponse atualizar(final Long id, final PessoaDtoRequest pessoaDtoRequest) {
 
@@ -57,6 +59,7 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
         .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
+  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
   @Override
   public void deletar(final Long id) {
 
@@ -68,11 +71,17 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
       .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
+  @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
   @Override
   public Page<PessoaDtoResponse> pesquisar(final PessoaFiltro filtro, final Pageable paginacao) {
 
-    var entidades = this.pessoaRepositoryJpa.findAll(PessoaSpecification.consultaDinamicaComFiltro(filtro) , paginacao);
-    return this.mapper.converterPaginaDeEntidadeParaPaginaDtoResponse(entidades, PessoaDtoResponse.class);
+    return Optional.of(filtro)
+      .map(parametrosDePesquisa -> {
+        var entidades = this.pessoaRepositoryJpa.findAll(PessoaSpecification.consultaDinamicaComFiltro(parametrosDePesquisa), paginacao);
+        return entidades;
+      })
+      .map(entidades -> this.mapper.converterPaginaDeEntidadeParaPaginaDtoResponse(entidades, PessoaDtoResponse.class))
+      .orElseThrow();
   }
 }
 

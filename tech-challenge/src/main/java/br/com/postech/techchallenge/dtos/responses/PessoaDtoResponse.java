@@ -18,7 +18,7 @@ import java.time.Instant;
 @Setter
 @ToString
 @EqualsAndHashCode(of = {"id"})
-public class PessoaDtoResponse implements PoliticaDtoResponse<Long> {
+public final class PessoaDtoResponse implements PoliticaDtoResponse<Long> {
 
   private Long id;
 
