@@ -7,6 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoResponse, E extends PoliticaEntity>
   implements PoliticaMapper<T, R, E> {
@@ -17,6 +20,13 @@ public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoRespo
   @Override
   public E converterDtoRequestParaEntidade(T dtoRequest, Class<E> eClass) {
     return this.modelMapper.map(dtoRequest, eClass);
+  }
+
+  @Override
+  public List<R> converterEntidadesParaListaDeDtoResponse(List<E> entities, Class<R> rClass) {
+    final var dtos = new ArrayList<R>();
+    entities.forEach(entity -> dtos.add(converterEntidadeParaDtoResponse(entity, rClass)));
+    return dtos;
   }
 
   @Override
