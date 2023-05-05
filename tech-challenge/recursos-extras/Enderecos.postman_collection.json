@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "1af77332-b97b-4293-96ab-600114e4e744",
+		"name": "Enderecos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20978386"
+	},
+	"item": [
+		{
+			"name": "Busca por id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/enderecos/dfa4a7c1-c034-4dc1-a863-53fc47e0279e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"enderecos",
+						"dfa4a7c1-c034-4dc1-a863-53fc47e0279e"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "dfa4a7c1-c034-4dc1-a863-53fc47e0279e",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/enderecos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"enderecos"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "dfa4a7c1-c034-4dc1-a863-53fc47e0279e",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cria endereco",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rua\": \"Rua teste\",\r\n    \"numero\": \"100\",\r\n    \"bairro\": \"Bairro teste\",\r\n    \"cidade\": \"Cidade teste\",\r\n    \"estado\": \"MG\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/enderecos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"enderecos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza endereco",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rua\": \"Rua teste\",\r\n    \"numero\": \"100\",\r\n    \"bairro\": \"Bairro teste\",\r\n    \"cidade\": \"Cidade teste\",\r\n    \"estado\": \"SP\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/enderecos/dfa4a7c1-c034-4dc1-a863-53fc47e0279e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"enderecos",
+						"dfa4a7c1-c034-4dc1-a863-53fc47e0279e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleta endereco",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/enderecos/e61a82fc-4034-4e1f-a745-9e05ceaff33f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"enderecos",
+						"e61a82fc-4034-4e1f-a745-9e05ceaff33f"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
