@@ -49,14 +49,14 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
   public PessoaDtoResponse atualizar(final Long id, final PessoaDtoRequest pessoaDtoRequest) {
 
     return this.pessoaRepositoryJpa.findById(id)
-        .map(pessoa -> {
-          var entidadeNovasInfos = this.mapper.converterDtoRequestParaEntidade(pessoaDtoRequest, Pessoa.class);
-          BeanUtils.copyProperties(entidadeNovasInfos, pessoa, "id");
-          pessoa.setDataCadastro(Instant.now());
-          return pessoa;
-        })
-        .map(pessoa -> this.mapper.converterEntidadeParaDtoResponse(pessoa, PessoaDtoResponse.class))
-        .orElseThrow(() -> new PessoaNaoEncontradaException(id));
+      .map(pessoa -> {
+        var entidadeNovasInfos = this.mapper.converterDtoRequestParaEntidade(pessoaDtoRequest, Pessoa.class);
+        BeanUtils.copyProperties(entidadeNovasInfos, pessoa, "id");
+        pessoa.setDataCadastro(Instant.now());
+        return pessoa;
+      })
+      .map(pessoa -> this.mapper.converterEntidadeParaDtoResponse(pessoa, PessoaDtoResponse.class))
+      .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
