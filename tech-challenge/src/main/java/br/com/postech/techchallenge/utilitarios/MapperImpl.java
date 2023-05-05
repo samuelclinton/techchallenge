@@ -5,7 +5,11 @@ import br.com.postech.techchallenge.dtos.resquests.PoliticaDtoRequest;
 import br.com.postech.techchallenge.entities.PoliticaEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoResponse, E extends PoliticaEntity>
@@ -20,8 +24,20 @@ public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoRespo
   }
 
   @Override
+  public List<R> converterEntidadesParaListaDeDtoResponse(List<E> entities, Class<R> rClass) {
+    final var dtos = new ArrayList<R>();
+    entities.forEach(entity -> dtos.add(converterEntidadeParaDtoResponse(entity, rClass)));
+    return dtos;
+  }
+
+  @Override
   public R converterEntidadeParaDtoResponse(E entidade, Class<R> rClass) {
     return this.modelMapper.map(entidade, rClass);
+  }
+
+  @Override
+  public Page<R> converterPaginaDeEntidadeParaPaginaDtoResponse(Page<E> entidades, Class<R> eClass) {
+    return entidades.map(entidade -> this.converterEntidadeParaDtoResponse(entidade, eClass));
   }
 }
 
