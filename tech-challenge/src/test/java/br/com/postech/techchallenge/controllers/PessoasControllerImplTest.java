@@ -123,6 +123,22 @@ class PessoasControllerImplTest {
 
   @Test
   @Order(3)
+  @DisplayName("Post - Cadastrar - cpf único 409")
+  void deveRetornarConflict409PorViolacaoDeRegraDeCpfUnico_quandoCadastrar() throws Exception {
+    pessoaDtoRequest.setCpf(CPF1);
+
+    mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding(UTF8)
+        .content(TestConverterUtil.converterObjetoParaJson(pessoaDtoRequest))
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(MockMvcResultMatchers.status().isConflict())
+      .andDo(MockMvcResultHandlers.print());
+  }
+
+
+  @Test
+  @Order(5)
   @DisplayName("Put - Atualizar - 200")
   void deveRetornarOk200ComRecursoNoCorpo_quandoAtualizar() throws Exception {
 
@@ -141,7 +157,7 @@ class PessoasControllerImplTest {
   }
 
   @Test
-  @Order(4)
+  @Order(6)
   @DisplayName("Put - Atualizar - validar persistência")
   void devePersistirCorretoNoDatabase_quandoAtualizar() throws Exception {
 
@@ -163,7 +179,33 @@ class PessoasControllerImplTest {
   }
 
   @Test
-  @Order(5)
+  @Order(7)
+  @DisplayName("Put - Atualizar - cpf único 409")
+  void deveRetornarConflict409PorViolacaoDeRegraDeCpfUnico_quandoAtualizar() throws Exception {
+
+    var pessoaSalva2 = Pessoa.builder()
+        .nome(faker.name().fullName())
+        .cpf(CPF2)
+        .dataNascimento(faker.date().birthday(5, 100).toString())
+        .sexo(SEXO)
+        .parentesco(faker.relationships().parent())
+      .build();
+    this.pessoaRepositoryJpa.save(pessoaSalva2);
+
+    pessoaDtoRequest.setCpf(CPF1);
+
+    mockMvc.perform(MockMvcRequestBuilders.put(ENDPOINT.concat("/" + pessoaSalva2.getId()))
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding(UTF8)
+        .content(TestConverterUtil.converterObjetoParaJson(pessoaDtoRequest))
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpectAll(MockMvcResultMatchers.status().isConflict())
+      .andDo(MockMvcResultHandlers.print());
+  }
+
+
+  @Test
+  @Order(10)
   @DisplayName("Delete - Deletar - 204")
   void deveRetornarNoContent204_quandoDeletar() throws Exception {
 
@@ -173,7 +215,7 @@ class PessoasControllerImplTest {
   }
 
   @Test
-  @Order(6)
+  @Order(11)
   @DisplayName("Delete - Deletar - validar persistência")
   void deveRemoverDadoPersistidoNoDatabase_quandoDeletar() throws Exception {
 
@@ -187,8 +229,9 @@ class PessoasControllerImplTest {
     Assertions.assertEquals(false, existe);
   }
 
+
   @Test
-  @Order(7)
+  @Order(15)
   @DisplayName("Pesquisar - Fluxo Principal I - dois objetos")
   void deveRetornarDoisObjetos_quandoPesquisarTodos() throws Exception {
 
