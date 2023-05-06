@@ -7,6 +7,7 @@ import br.com.postech.techchallenge.entities.Pessoa;
 import br.com.postech.techchallenge.exceptions.http404.PessoaNaoEncontradaException;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.repositories.specification.PessoaSpecification;
+import br.com.postech.techchallenge.services.padrao_regras.PadraoRegrasDeNegocio;
 import br.com.postech.techchallenge.utilitarios.PoliticaMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,44 +19,44 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, PessoaDtoResponse, PessoaFiltro, Long> {
-
-  @Autowired
-  private PoliticaMapper<PessoaDtoRequest, PessoaDtoResponse, Pessoa> mapper;
+public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFiltro, Long> {
 
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
 
+  @Autowired
+  private List<PadraoRegrasDeNegocio> regrasDeNegocios;
+
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
-  public PessoaDtoResponse cadastrar(final PessoaDtoRequest pessoaDtoRequest) {
+  public Pessoa cadastrar(final Pessoa pessoa) {
 
-    return Optional.of(pessoaDtoRequest)
-      .map(dto -> this.mapper.converterDtoRequestParaEntidade(dto, Pessoa.class))
+    return Optional.of(pessoa)
       .map(entidade -> {
+        this.regrasDeNegocios.forEach(regra -> regra.executarRegraDeNegocio(entidade));
         entidade.setDataCadastro(Instant.now());
         return entidade;
       })
       .map(this.pessoaRepositoryJpa::save)
-      .map(entidade -> this.mapper.converterEntidadeParaDtoResponse(entidade, PessoaDtoResponse.class))
       .orElseThrow();
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
-  public PessoaDtoResponse atualizar(final Long id, final PessoaDtoRequest pessoaDtoRequest) {
+  public Pessoa atualizar(final Long id, final Pessoa pessoaAtualiza) {
 
     return this.pessoaRepositoryJpa.findById(id)
-      .map(pessoa -> {
-        var entidadeNovasInfos = this.mapper.converterDtoRequestParaEntidade(pessoaDtoRequest, Pessoa.class);
-        BeanUtils.copyProperties(entidadeNovasInfos, pessoa, "id");
-        pessoa.setDataCadastro(Instant.now());
-        return pessoa;
+      .map(pessoaDoDatabase -> {
+        this.regrasDeNegocios.forEach(regra -> regra.executarRegraDeNegocio(pessoaAtualiza));
+        BeanUtils.copyProperties(pessoaAtualiza, pessoaDoDatabase, "id");
+        pessoaDoDatabase.setDataCadastro(Instant.now());
+        return pessoaDoDatabase;
       })
-      .map(pessoa -> this.mapper.converterEntidadeParaDtoResponse(pessoa, PessoaDtoResponse.class))
       .orElseThrow(() -> new PessoaNaoEncontradaException(id));
   }
 
@@ -73,14 +74,13 @@ public class PessoaServiceImpl implements PoliticaService<PessoaDtoRequest, Pess
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
   @Override
-  public Page<PessoaDtoResponse> pesquisar(final PessoaFiltro filtro, final Pageable paginacao) {
+  public Page<Pessoa> pesquisar(final PessoaFiltro filtro, final Pageable paginacao) {
 
     return Optional.of(filtro)
       .map(parametrosDePesquisa -> {
         var entidades = this.pessoaRepositoryJpa.findAll(PessoaSpecification.consultaDinamicaComFiltro(parametrosDePesquisa), paginacao);
         return entidades;
       })
-      .map(entidades -> this.mapper.converterPaginaDeEntidadeParaPaginaDtoResponse(entidades, PessoaDtoResponse.class))
       .orElseThrow();
   }
 }

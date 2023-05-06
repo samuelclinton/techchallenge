@@ -31,7 +31,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"cpf"})
 public final class Pessoa implements PoliticaEntity {
 
   @Id
@@ -48,7 +48,7 @@ public final class Pessoa implements PoliticaEntity {
   @Enumerated(EnumType.STRING)
   private SexoEnum sexo;
 
-  @Column(name = "cpf", length = 14, nullable = false)
+  @Column(name = "cpf", length = 14, unique = true, nullable = false)
   private String cpf;
 
   @Column(name = "parentesco", length = 50, nullable = true)
