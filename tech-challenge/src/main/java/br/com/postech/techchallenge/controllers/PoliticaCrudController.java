@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public interface PoliticaController<Q extends PoliticaDtoRequest, R extends PoliticaDtoResponse, F extends PoliticaFiltro, I> {
+public interface PoliticaCrudController<Q extends PoliticaDtoRequest, R extends PoliticaDtoResponse, F extends PoliticaFiltro, I> {
 
   @PostMapping
-  ResponseEntity<R> cadastrar(Q pessoaDtoRequest, UriComponentsBuilder uriComponentsBuilder);
+  ResponseEntity<R> cadastrar(Q dtoRequest, UriComponentsBuilder uriComponentsBuilder);
 
   @PutMapping(path = "/{id}")
-  ResponseEntity<R> atualizar(I id, Q pessoaDtoRequest);
+  ResponseEntity<R> atualizar(I id, Q dtoRequest);
 
   @DeleteMapping(path = "/{id}")
   ResponseEntity<?> deletar(I id);
