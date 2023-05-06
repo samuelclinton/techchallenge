@@ -7,6 +7,7 @@ import br.com.postech.techchallenge.entities.Pessoa;
 import br.com.postech.techchallenge.exceptions.http404.PessoaNaoEncontradaException;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.repositories.specification.PessoaSpecification;
+import br.com.postech.techchallenge.services.padrao_regras.PadraoRegrasDeNegocio;
 import br.com.postech.techchallenge.utilitarios.PoliticaMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,12 +29,16 @@ public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFilt
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
 
+  @Autowired
+  private List<PadraoRegrasDeNegocio> regrasDeNegocios;
+
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
   public Pessoa cadastrar(final Pessoa pessoa) {
 
     return Optional.of(pessoa)
       .map(entidade -> {
+        this.regrasDeNegocios.forEach(regra -> regra.executarRegraDeNegocio(entidade));
         entidade.setDataCadastro(Instant.now());
         return entidade;
       })
@@ -45,6 +52,7 @@ public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFilt
 
     return this.pessoaRepositoryJpa.findById(id)
       .map(pessoaDoDatabase -> {
+        this.regrasDeNegocios.forEach(regra -> regra.executarRegraDeNegocio(pessoaAtualiza));
         BeanUtils.copyProperties(pessoaAtualiza, pessoaDoDatabase, "id");
         pessoaDoDatabase.setDataCadastro(Instant.now());
         return pessoaDoDatabase;
