@@ -5,7 +5,6 @@ import br.com.postech.techchallenge.entities.Pessoa;
 import br.com.postech.techchallenge.entities.enums.SexoEnum;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.utils.TestConverterUtil;
-import com.github.javafaker.Faker;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -52,8 +51,6 @@ class PessoasControllerImplTest {
 
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
-
-  public Faker faker = new Faker();
 
   private Pessoa pessoaSalva;
 
@@ -184,11 +181,11 @@ class PessoasControllerImplTest {
   void deveRetornarConflict409PorViolacaoDeRegraDeCpfUnico_quandoAtualizar() throws Exception {
 
     var pessoaSalva2 = Pessoa.builder()
-        .nome(faker.name().fullName())
+        .nome("Sam Newman")
         .cpf(CPF2)
-        .dataNascimento(faker.date().birthday(5, 100).toString())
+        .dataNascimento("20/10/2005")
         .sexo(SEXO)
-        .parentesco(faker.relationships().parent())
+        .parentesco("tio")
       .build();
     this.pessoaRepositoryJpa.save(pessoaSalva2);
 
@@ -236,11 +233,11 @@ class PessoasControllerImplTest {
   void deveRetornarDoisObjetos_quandoPesquisarTodos() throws Exception {
 
     var pessoaSalva2 = Pessoa.builder()
-      .nome(faker.name().fullName())
+      .nome("Jeff Sutherland")
       .cpf("30872708063")
-      .dataNascimento(faker.date().birthday(18, 105).toString())
+      .dataNascimento("10/02/1975")
       .sexo(SEXO)
-      .parentesco(faker.relationships().parent())
+      .parentesco("sobrinho")
       .build();
     this.pessoaRepositoryJpa.save(pessoaSalva2);
 
