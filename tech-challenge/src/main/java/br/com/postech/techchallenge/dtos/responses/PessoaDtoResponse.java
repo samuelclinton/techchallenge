@@ -17,7 +17,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"cpf"})
 public final class PessoaDtoResponse implements PoliticaDtoResponse<Long> {
 
   private Long id;
