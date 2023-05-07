@@ -1,8 +1,5 @@
 package br.com.postech.techchallenge.dtos.resquests;
 
-import br.com.postech.techchallenge.entities.enums.SexoEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +10,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
+
+import java.time.OffsetDateTime;
 
 @Builder
 @NoArgsConstructor

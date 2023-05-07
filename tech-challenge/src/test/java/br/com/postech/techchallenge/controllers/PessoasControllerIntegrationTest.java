@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PessoasControllerImplTest {
+class PessoasControllerIntegrationTest {
 
   public static final String ENDPOINT = "/v1/pessoas";
 
