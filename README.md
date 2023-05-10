@@ -6,9 +6,9 @@ Breve descrição do projeto
 
 ## Índice
 
-- Uso;
-- Contribuição;
-- Histórico;
+- Arquitetura;
+- Dependências;
+- Testes;
 - Licença;
 - Contato.
 
