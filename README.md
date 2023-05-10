@@ -7,12 +7,14 @@ Breve descrição do projeto
 ## Índice
 
 - Tecnologias;
+- Ferramentas;
 - Arquitetura;
 - Dependências;
 - Testes;
+- Instalação;
 - Licença;
 - Contato;
-- Instalação;
+- Links.
 
 ### Tecnologias
 
@@ -20,6 +22,14 @@ Breve descrição do projeto
 - Spring Boot (3.0.6);
 - Maven;
 - PostgreSQL;
+
+### Ferramentas
+
+- Trello;
+- Postman;
+- Discord;
+
+
 
 
 
