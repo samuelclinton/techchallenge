@@ -1,14 +1,13 @@
 package br.com.postech.techchallenge.services;
 
 import br.com.postech.techchallenge.controllers.filtros.PessoaFiltro;
-import br.com.postech.techchallenge.dtos.responses.PessoaDtoResponse;
-import br.com.postech.techchallenge.dtos.resquests.PessoaDtoRequest;
 import br.com.postech.techchallenge.entities.Pessoa;
+import br.com.postech.techchallenge.exceptions.ConstantesErro;
 import br.com.postech.techchallenge.exceptions.http404.PessoaNaoEncontradaException;
 import br.com.postech.techchallenge.repositories.PessoaRepositoryJpa;
 import br.com.postech.techchallenge.repositories.specification.PessoaSpecification;
 import br.com.postech.techchallenge.services.padrao_regras.PadraoRegrasDeNegocio;
-import br.com.postech.techchallenge.utilitarios.PoliticaMapper;
+import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,10 +18,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Log
 @Service
 public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFiltro, Long> {
 
@@ -57,7 +56,10 @@ public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFilt
         pessoaDoDatabase.setDataCadastro(Instant.now());
         return pessoaDoDatabase;
       })
-      .orElseThrow(() -> new PessoaNaoEncontradaException(id));
+      .orElseThrow(() -> {
+        log.info(String.format(ConstantesErro.PESSOA_NAO_ENCONTRADA, id));
+        throw new PessoaNaoEncontradaException(id);
+      });
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -69,7 +71,10 @@ public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFilt
         this.pessoaRepositoryJpa.delete(pessoa);
         return true;
       })
-      .orElseThrow(() -> new PessoaNaoEncontradaException(id));
+      .orElseThrow(() -> {
+          log.info(String.format(ConstantesErro.PESSOA_NAO_ENCONTRADA, id));
+          throw new PessoaNaoEncontradaException(id);
+      });
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)

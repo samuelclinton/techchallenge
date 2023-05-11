@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/v1/pessoas")
-public class PessoasControllerImpl implements PoliticaCrudController<PessoaDtoRequest, PessoaDtoResponse, PessoaFiltro, Long> {
+public class PessoaControllerImpl implements PoliticaCrudController<PessoaDtoRequest, PessoaDtoResponse, PessoaFiltro, Long> {
 
   @Autowired
   private PoliticaCrudService<Pessoa, PessoaFiltro, Long> pessoaService;
