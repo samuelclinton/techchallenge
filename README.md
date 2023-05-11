@@ -1,7 +1,5 @@
 # Desafio Tech Challenge
 
-## Nome do Projeto
-
 Breve descrição do projeto
 
 ## Índice
@@ -10,26 +8,42 @@ Breve descrição do projeto
 - Ferramentas;
 - Arquitetura;
 - Dependências;
-- Testes;
 - Instalação;
+- Endpoint;
+- Autores;
 - Licença;
-- Contato;
 - Links.
 
 ### Tecnologias
 
-- Java (LTS 17);
-- Spring Boot (3.0.6);
-- Maven;
-- PostgreSQL;
+> - Java (LTS 17);
+> - Spring Boot (3.0.6);
+> - Maven;
+> - Git;
+> - PostgreSQL;
 
 ### Ferramentas
 
-- Trello;
-- Postman;
-- Discord;
+> - Intellij IDEA;
+> - Postman;
+> - GitHub;
+> - Discord;
+> - Trello;
+
+### Arquitetura
+
+### Dependências
+
+### Instalação
 
 
 
 
+### Endpoints
+
+### Autores
+
+### Licença
+
+### Links
 
