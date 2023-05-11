@@ -5,7 +5,9 @@ A API de endereços consiste em um conjunto de endpoints para gerenciar os ender
 
 ### :pushpin: /v1/enderecos
 Lista todos os endereços contidos na base de dados.
+
 Verbo HTTP: 🔵 **GET**
+
 Status de retorno esperado:  **200 - SUCCESS**
 #### Exemplo de payload do retorno
 
@@ -40,7 +42,9 @@ Status de retorno esperado:  **200 - SUCCESS**
 
 ### :pushpin: /v1/enderecos/{enderecoId}
 Busca um endereço através do UUID recebido via parâmetro de URL
+
 Verbo HTTP: 🔵 **GET**
+
 Status de retorno esperado: **200 - SUCCESS**
 
 #### Exemplo de payload da resposta
@@ -58,7 +62,9 @@ Status de retorno esperado: **200 - SUCCESS**
 
 ### :pushpin: /v1/enderecos/
 Cria um endereço através dos dados recebidos via JSON no corpo da requisição 
+
 Verbo HTTP:  🟢 **POST**
+
 Status de retorno esperado: **201 - CREATED**
 
 #### Exemplo de payload da requisição
@@ -85,7 +91,9 @@ Status de retorno esperado: **201 - CREATED**
 
 ### :pushpin: /v1/enderecos/{enderecoId}
 Altera um endereço através do uuid recebido via parâmetro de URL e dos dados recebidos via JSON no corpo da requisição
+
 Verbo HTTP: 🟠 **PUT**
+
 Status de retorno esperado: **200 - SUCCESS**
 
 #### Exemplo de payload da requisição
@@ -111,6 +119,8 @@ Status de retorno esperado: **200 - SUCCESS**
 ---
  
 ### :pushpin: /v1/enderecos/{enderecoId}
-Excluí um endereço através do UUID recebido via parâmetro de URL
+Exclui um endereço através do UUID recebido via parâmetro de URL
+
 Verbo HTTP: :red_circle:  **DELETE**
+
 Status de retorno esperado: **204 - NO CONTENT**
