@@ -1,15 +1,14 @@
 # TECH CHALLENGE
 
-Breve descrição do projeto.
+Projeto desenvolvimento com objetivo o acadêmico da aprendizagem. Bem como, para atender requisitos avaliativos da primeira fase da pós-graduação em Arquitetura e Desenvolvimento Java da Fiap/Alura.
 
 ## ÍNDICE
 
 - Tecnologias;
 - Ferramentas;
-- Arquitetura;
 - Dependências;
 - Instalação;
-- [Documentação das APIs](https://github.com/samuelclinton/techchallenge/blob/feature/documentacao/DOCUMENTACAO.md);
+- Detalhes das APIs;
 - Autores;
 - Licença;
 - Links.
@@ -30,9 +29,69 @@ Breve descrição do projeto.
 > - Discord;
 > - Trello;
 
-### ARQUITETURA
-
 ### DEPENDÊNCIAS
+
+> ```
+> <dependency>
+>>  <groupId>org.springframework.boot</groupId>
+>>  <artifactId>spring-boot-starter-web</artifactId>
+> </dependency>
+> ```
+> 
+> ```
+> <dependency>
+>>  <groupId>org.springframework.boot</groupId>
+>>  <artifactId>spring-boot-starter-validation</artifactId>
+> </dependency>
+> ```
+> 
+> ```
+> <dependency>
+>>  <groupId>org.springframework.boot</groupId>
+>>  <artifactId>spring-boot-starter-data-jpa</artifactId>
+> </dependency>
+> ```
+> 
+> ```
+> <dependency>
+>>  <groupId>org.postgresql</groupId>
+>>  <artifactId>postgresql</artifactId>
+>>  <scope>runtime</scope>
+> </dependency>
+> ```
+>
+> ```
+> <dependency>
+>>  <groupId>org.springframework.boot</groupId>
+>>  <artifactId>spring-boot-devtools</artifactId>
+>>  <scope>runtime</scope>
+>>  <optional>true</optional>
+> </dependency>
+> ```
+>
+> ```
+> <dependency>
+>>  <groupId>org.projectlombok</groupId>
+>>  <artifactId>lombok</artifactId>
+>>  <optional>true</optional>
+> </dependency>
+> ```
+>
+> ```
+> <dependency>
+>>  <groupId>org.modelmapper</groupId>
+>>  <artifactId>modelmapper</artifactId>
+>>  <version>3.1.1</version>	
+> </dependency>
+> ```
+>
+> ```
+> <dependency>
+>>  <groupId>org.springframework.boot</groupId>
+>>  <artifactId>spring-boot-starter-test</artifactId>
+>>  <scope>test</scope>
+> </dependency>
+> ```
 
 ### INSTALAÇÃO
 
@@ -49,39 +108,22 @@ git clone https://github.com/samuelclinton/techchallenge.git
    2. Crie o database com o nome: `techchallenge`;
 7. Acione sua IDE preferida e abra o projeto clonado no diretório escolhido.
 
-### ENDPOINTS
+### Detalhes das APIs
 
-#### API Pessoas
-``` 
-POST: 
-GET: 
-PUT: 
-DELETE: 
-```
-#### API Endereços
-``` 
-POST: 
-GET: 
-PUT: 
-DELETE: 
-```
-#### API Eletrodomésticos
-``` 
-POST: 
-GET: 
-PUT: 
-DELETE: 
-```
-
+> - Documentação das APIs [(clique aqui)](https://github.com/samuelclinton/techchallenge/blob/feature/documentacao/DOCUMENTACAO.md);
 
 ### AUTORES
 
-> - Samuel Clinton;
-> - Junior Martins;
-> - Matheus Dias;
-> - Eric Moraes.
+> - Samuel Clinton [(clique aqui)](https://www.linkedin.com/in/samuelclinton/);
+> - Junior Martins [(clique aqui)](https://www.linkedin.com/in/juniorsmartins/);
+> - Matheus Dias [(clique aqui)]();
+> - Eric Moraes [(clique aqui)]().
 
 ### LICENÇA
 
+- Licença MIT: permite o uso, a modificação e a distribuição do software sem restrições significativas.
+
 ### LINKS
+
+- Pós-graduação em Arquitetura e Desenvolvimento Java pela Fiap/Alura [(clique aqui)](https://postech.fiap.com.br/curso/arquitetura-desenvolvimento-java/);
 
