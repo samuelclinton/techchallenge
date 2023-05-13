@@ -19,6 +19,10 @@ public final class MensagemRetornoErro {
 
   private String statusHttp;
 
+  private String anotacao;
+
+  private String campo;
+
   private String mensagem;
 
   private OffsetDateTime dataHoraDoErro;
