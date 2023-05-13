@@ -11,8 +11,6 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import java.time.OffsetDateTime;
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

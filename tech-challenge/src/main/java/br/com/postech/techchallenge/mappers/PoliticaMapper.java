@@ -1,4 +1,4 @@
-package br.com.postech.techchallenge.utilitarios;
+package br.com.postech.techchallenge.mappers;
 
 import br.com.postech.techchallenge.dtos.responses.PoliticaDtoResponse;
 import br.com.postech.techchallenge.dtos.resquests.PoliticaDtoRequest;

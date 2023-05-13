@@ -16,6 +16,8 @@ public class PessoaFiltro implements PoliticaFiltro<Long> {
 
   private String cpf;
 
+  private String dataNascimento;
+
   private String parentesco;
 }
 

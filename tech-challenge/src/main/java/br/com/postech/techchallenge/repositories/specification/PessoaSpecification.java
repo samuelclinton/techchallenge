@@ -2,11 +2,11 @@ package br.com.postech.techchallenge.repositories.specification;
 
 import br.com.postech.techchallenge.controllers.filtros.PessoaFiltro;
 import br.com.postech.techchallenge.entities.Pessoa;
-import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.Predicate;
-import org.springframework.util.ObjectUtils;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PessoaSpecification {
 
@@ -25,13 +25,19 @@ public class PessoaSpecification {
             "%".concat(filtro.getNome().toLowerCase()).concat("%")));
       }
 
-//      if (filtro.getSexo() != null) {
-//        predicados.add(root.get("sexo"),filtro.getSexo());
-//      }
+      if (filtro.getSexo() != null) {
+        predicados.add(criteriaBuilder.equal(criteriaBuilder.upper(root.get("sexo")),
+          filtro.getSexo().toString().toUpperCase(Locale.ROOT)));
+      }
 
       if (filtro.getCpf() != null && !filtro.getCpf().isEmpty()) {
         predicados.add(criteriaBuilder.like(root.get("cpf"),
             "%".concat(filtro.getCpf()).concat("%")));
+      }
+
+      if ( filtro.getDataNascimento() != null && !filtro.getDataNascimento().isEmpty()) {
+        predicados.add(criteriaBuilder.like(root.get("dataNascimento"),
+          "%".concat(filtro.getDataNascimento()).concat("%")));
       }
 
       if (filtro.getParentesco() != null && !filtro.getParentesco().isEmpty()) {

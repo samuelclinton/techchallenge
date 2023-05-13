@@ -1,4 +1,4 @@
-package br.com.postech.techchallenge.utilitarios;
+package br.com.postech.techchallenge.mappers;
 
 import br.com.postech.techchallenge.dtos.responses.PoliticaDtoResponse;
 import br.com.postech.techchallenge.dtos.resquests.PoliticaDtoRequest;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,8 +25,8 @@ public class MapperImpl<T extends PoliticaDtoRequest, R extends PoliticaDtoRespo
   @Override
   public List<R> converterEntidadesParaListaDeDtoResponse(List<E> entities, Class<R> rClass) {
     return entities.stream()
-        .map(entidade -> this.converterEntidadeParaDtoResponse(entidade, rClass))
-        .toList();
+      .map(entidade -> this.converterEntidadeParaDtoResponse(entidade, rClass))
+      .toList();
   }
 
   @Override
