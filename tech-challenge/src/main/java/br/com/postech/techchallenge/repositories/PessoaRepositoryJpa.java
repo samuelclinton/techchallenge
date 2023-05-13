@@ -9,5 +9,7 @@ import java.util.Optional;
 public interface PessoaRepositoryJpa extends JpaRepository<Pessoa, Long>, JpaSpecificationExecutor<Pessoa> {
 
   Optional<Pessoa> findByCpf(String cpf);
+
+  Optional<Pessoa> findByNome(String nome);
 }
 
