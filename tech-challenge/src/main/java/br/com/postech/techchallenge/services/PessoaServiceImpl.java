@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Log
 @Service
-public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFiltro, Long> {
+public class PessoaServiceImpl implements PoliticaPessoaService<Pessoa, PessoaFiltro, Long> {
 
   @Autowired
   private PessoaRepositoryJpa pessoaRepositoryJpa;
@@ -77,7 +77,7 @@ public class PessoaServiceImpl implements PoliticaCrudService<Pessoa, PessoaFilt
       });
   }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+  @Transactional(readOnly = true)
   @Override
   public Page<Pessoa> pesquisar(final PessoaFiltro filtro, final Pageable paginacao) {
 

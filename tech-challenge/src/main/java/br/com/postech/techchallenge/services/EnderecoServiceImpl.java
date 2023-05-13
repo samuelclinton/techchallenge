@@ -5,7 +5,7 @@ import br.com.postech.techchallenge.dtos.resquests.EnderecoDtoRequest;
 import br.com.postech.techchallenge.entities.Endereco;
 import br.com.postech.techchallenge.exceptions.http404.EnderecoNaoEncontradoException;
 import br.com.postech.techchallenge.repositories.EnderecoRepository;
-import br.com.postech.techchallenge.utilitarios.PoliticaMapper;
+import br.com.postech.techchallenge.mappers.PoliticaMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
