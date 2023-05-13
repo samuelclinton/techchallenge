@@ -9,7 +9,7 @@ Breve descrição do projeto.
 - Arquitetura;
 - Dependências;
 - Instalação;
-- Endpoint;
+- [Documentação das APIs](https://github.com/samuelclinton/techchallenge/blob/feature/documentacao/DOCUMENTACAO.md);
 - Autores;
 - Licença;
 - Links.
