@@ -60,7 +60,12 @@ public final class TratamentoGlobalDeExceptions extends ResponseEntityExceptionH
     var erros = ex.getBindingResult()
       .getFieldErrors()
       .stream()
-      .map(erro -> erro.getDefaultMessage())
+      .map(erro -> MensagemRetornoErro.builder()
+        .campo(erro.getField())
+        .mensagem(erro.getDefaultMessage())
+        .anotacao(erro.getCode())
+        .dataHoraDoErro(OffsetDateTime.now())
+        .build())
       .toList();
 
     return ResponseEntity
