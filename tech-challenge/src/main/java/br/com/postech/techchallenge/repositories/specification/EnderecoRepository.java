@@ -1,4 +1,4 @@
-package br.com.postech.techchallenge.repositories;
+package br.com.postech.techchallenge.repositories.specification;
 
 import br.com.postech.techchallenge.entities.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;

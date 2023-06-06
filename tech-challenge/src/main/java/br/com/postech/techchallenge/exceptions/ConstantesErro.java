@@ -6,6 +6,8 @@ public final class ConstantesErro {
 
   public static final String ENDERECO_NAO_ENCONTRADO = "Endereço não encontrado com o id: %s";
 
+  public static final String ELETRODOMESTICO_NAO_ENCONTRADO = "Eletrodoméstico não encontrado com o id: %s";
+
   public static final String REGRA_CPF_UNICO_VIOLADA = "CPF, %s, já cadastrado no banco de dados.";
 
   public static final String REGRA_NOME_UNICO_VIOLADO = "Nome, %s, já cadastrado no banco de dados.";
