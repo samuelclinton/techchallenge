@@ -16,31 +16,32 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Pessoa implements DomainEntity {
 
-  @Id
-  @EqualsAndHashCode.Include
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(nullable = false, unique = true)
-  private Long id;
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, unique = true)
+    private Long id;
 
-  @Column(nullable = false, unique = true)
-  private final String codigo = UUID.randomUUID().toString();
+    @Column(nullable = false, unique = true)
+    private final String codigo = UUID.randomUUID().toString();
 
-  @Column(nullable = false)
-  private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-  @Column(nullable = false)
-  private LocalDate dataNascimento;
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
 
-  @Enumerated(EnumType.STRING)
-  private Sexo sexo;
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
 
-  @Column(nullable = false, unique = true)
-  private String cpf;
+    @Column(nullable = false, unique = true)
+    private String cpf;
 
-  // private Pessoa parente;
+    @ManyToOne
+    private Pessoa parente;
 
-  @CreationTimestamp
-  private Instant dataCadastro;
+    @CreationTimestamp
+    private Instant dataCadastro;
 
 }
 

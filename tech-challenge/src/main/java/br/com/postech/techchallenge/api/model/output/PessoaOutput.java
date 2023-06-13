@@ -15,7 +15,7 @@ public class PessoaOutput implements DomainEntityOutputModel {
     private LocalDate dataNascimento;
     private Sexo sexo;
     private String cpf;
-    // private Pessoa parente;
+    private ParenteOutput parente;
     private Instant dataCadastro;
 
 }
