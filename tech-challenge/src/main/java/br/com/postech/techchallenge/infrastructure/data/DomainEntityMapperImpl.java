@@ -18,6 +18,11 @@ public class DomainEntityMapperImpl<I extends DomainEntityInputModel, O extends 
     private ModelMapper modelMapper;
 
     @Override
+    public void copiarPropriedadesEntreEntidades(E entidadeOrigem, E entidadeDestino) {
+        this.modelMapper.map(entidadeOrigem, entidadeDestino);
+    }
+
+    @Override
     public E converterInputParaEntidade(I input, Class<E> entityClass) {
         return this.modelMapper.map(input, entityClass);
     }
