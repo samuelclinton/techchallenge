@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class EletrodomesticoOutput implements DomainEntityOutputModel {
 
-    private String id;
+    private String codigo;
     private String nome;
     private String modelo;
     private String potencia;
