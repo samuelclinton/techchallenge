@@ -2,6 +2,7 @@ package br.com.postech.techchallenge.api.exception;
 
 import br.com.postech.techchallenge.api.exception.Erro.ErroValidacao;
 import br.com.postech.techchallenge.domain.exception.ConflitoDeRecursoException;
+import br.com.postech.techchallenge.domain.exception.ErroDeNegocioException;
 import br.com.postech.techchallenge.domain.exception.RecursoNaoEncontradoException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,13 +40,25 @@ public final class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         final var statusHttp = HttpStatus.CONFLICT;
 
-        var mensagemRetornoErro = Erro.builder()
+        var erro = Erro.builder()
             .status(statusHttp.value())
             .titulo("Conflito de recurso")
             .mensagem(conflitoDeRecursoException.getMessage())
             .build();
 
-        return ResponseEntity.status(statusHttp).body(mensagemRetornoErro);
+        return ResponseEntity.status(statusHttp).body(erro);
+    }
+
+    @ExceptionHandler(value = ErroDeNegocioException.class)
+    public ResponseEntity<Object> tratarErroDeNegocioException(ErroDeNegocioException erroDeNegocioException) {
+
+        var erro = Erro.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .titulo("Violação de regra de negócio")
+                .mensagem(erroDeNegocioException.getMessage())
+                .build();
+
+        return ResponseEntity.badRequest().body(erro);
     }
 
     @Override
