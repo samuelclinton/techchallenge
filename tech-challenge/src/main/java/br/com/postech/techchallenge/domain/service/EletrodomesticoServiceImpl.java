@@ -1,13 +1,12 @@
 package br.com.postech.techchallenge.domain.service;
 
 
+import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
+import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
+import br.com.postech.techchallenge.domain.exception.EletrodomesticoNaoEncontradoException;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
 import br.com.postech.techchallenge.domain.repository.EletrodomesticoRepository;
-import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
-import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
-import br.com.postech.techchallenge.domain.exception.EletrodomesticoNaoEncontradoException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +47,7 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
     public EletrodomesticoOutput atualizar(String id, EletrodomesticoInput eletrodomesticoInput) {
         final var eletrodomesticoAtual = buscarOuLancarException(id);
         final var novoEletrodomestico = mapper.converterInputParaEntidade(eletrodomesticoInput, Eletrodomestico.class);
-        BeanUtils.copyProperties(novoEletrodomestico, eletrodomesticoAtual);
+        mapper.copiarPropriedadesEntreEntidades(novoEletrodomestico, eletrodomesticoAtual);
         eletrodomesticoRepository.save(eletrodomesticoAtual);
         return mapper.converterEntidadeParaOutput(eletrodomesticoAtual, EletrodomesticoOutput.class);
     }

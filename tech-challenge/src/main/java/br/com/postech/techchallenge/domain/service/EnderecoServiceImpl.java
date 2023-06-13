@@ -1,12 +1,11 @@
 package br.com.postech.techchallenge.domain.service;
 
+import br.com.postech.techchallenge.api.model.input.EnderecoInput;
+import br.com.postech.techchallenge.api.model.output.EnderecoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
+import br.com.postech.techchallenge.domain.exception.EnderecoNaoEncontradoException;
 import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.repository.EnderecoRepository;
-import br.com.postech.techchallenge.api.model.output.EnderecoOutput;
-import br.com.postech.techchallenge.api.model.input.EnderecoInput;
-import br.com.postech.techchallenge.domain.exception.EnderecoNaoEncontradoException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +43,10 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public EnderecoOutput atualizar(String id, EnderecoInput enderecoInput) {
-        final var enderecoAtual = buscarOuLancarException(id);
+    public EnderecoOutput atualizar(String codigo, EnderecoInput enderecoInput) {
+        final var enderecoAtual = buscarOuLancarException(codigo);
         final var novoEndereco = mapper.converterInputParaEntidade(enderecoInput, Endereco.class);
-        BeanUtils.copyProperties(novoEndereco, enderecoAtual, "id", "codigo");
+        mapper.copiarPropriedadesEntreEntidades(novoEndereco, enderecoAtual);
         enderecoRepository.save(enderecoAtual);
         return mapper.converterEntidadeParaOutput(enderecoAtual, EnderecoOutput.class);
     }
