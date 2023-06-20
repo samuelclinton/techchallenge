@@ -1,5 +1,6 @@
 package br.com.postech.techchallenge.domain.model;
 
+import br.com.postech.techchallenge.domain.model.enums.Voltagem;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,7 +30,11 @@ public class Eletrodomestico implements DomainEntity {
     private String modelo;
 
     @Column(nullable = false)
-    private String potencia;
+    private Float potencia;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Voltagem voltagem;
 
     @Column(nullable = false)
     private String marca;
