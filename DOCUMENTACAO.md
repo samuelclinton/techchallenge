@@ -2,16 +2,10 @@
 
 Esta documentação tem como objetivo listar, descrever e exemplificar os endpoints de todas as APIs do projeto de forma a facilitar o consumo da API pelos clientes.
 
-<br />
-
 ### **Índice**
 🌎 [Endereços](#-api-de-endereços) \
 📺 [Eletrodomésticos](#-api-de-eletrodomésticos) \
 👤 [Pessoas](#-api-de-pessoas)
-
-<br />
-
----
 
 <br />
 
@@ -136,8 +130,6 @@ Status de retorno esperado: **204 - NO CONTENT**
 
 <br />
 
----
-
 <br />
 
 ## 📺 API de Eletrodomésticos
@@ -235,8 +227,6 @@ Exclui um eletrodoméstico através do código recebido via parâmetro de URL
 Status de retorno esperado: **204 - NO CONTENT**
 
 <br />
-
----
 
 <br />
 
