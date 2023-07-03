@@ -4,10 +4,10 @@ Esta documentação tem como objetivo listar, descrever e exemplificar os endpoi
 
 <br />
 
-## **Índice**
-🌎 [Endereços](#🌎-api-de-endereços) \
-📺 [Eletrodomésticos](#📺-api-de-eletrodomésticos) \
-👤 [Pessoas](#👤-api-de-pessoas)
+### **Índice**
+🌎 [Endereços](#-api-de-endereços) \
+📺 [Eletrodomésticos](#-api-de-eletrodomésticos) \
+👤 [Pessoas](#-api-de-pessoas)
 
 <br />
 
