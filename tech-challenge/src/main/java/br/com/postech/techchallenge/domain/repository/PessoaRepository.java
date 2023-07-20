@@ -15,4 +15,3 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     List<Pessoa> findAllByParente(Pessoa parente);
 
 }
-

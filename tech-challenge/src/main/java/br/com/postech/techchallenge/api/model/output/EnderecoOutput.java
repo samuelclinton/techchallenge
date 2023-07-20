@@ -14,4 +14,3 @@ public final class EnderecoOutput implements DomainEntityOutputModel {
     private String estado;
 
 }
-

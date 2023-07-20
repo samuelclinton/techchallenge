@@ -26,4 +26,3 @@ public final class EletrodomesticoInput implements DomainEntityInputModel {
     private String marca;
 
 }
-

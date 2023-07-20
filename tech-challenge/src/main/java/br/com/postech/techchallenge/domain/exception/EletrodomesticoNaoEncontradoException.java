@@ -7,4 +7,3 @@ public final class EletrodomesticoNaoEncontradoException extends RecursoNaoEncon
     }
 
 }
-

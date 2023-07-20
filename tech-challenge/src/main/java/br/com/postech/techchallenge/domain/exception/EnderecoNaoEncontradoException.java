@@ -7,4 +7,3 @@ public final class EnderecoNaoEncontradoException extends RecursoNaoEncontradoEx
     }
 
 }
-

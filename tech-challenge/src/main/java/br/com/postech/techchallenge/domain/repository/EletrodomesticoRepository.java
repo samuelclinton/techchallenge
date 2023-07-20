@@ -10,4 +10,3 @@ import java.util.Optional;
 public interface EletrodomesticoRepository extends JpaRepository<Eletrodomestico, Long> {
     Optional<Eletrodomestico> findByCodigo(String codigo);
 }
-

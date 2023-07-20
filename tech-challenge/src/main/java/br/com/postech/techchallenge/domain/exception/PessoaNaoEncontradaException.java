@@ -7,4 +7,3 @@ public final class PessoaNaoEncontradaException extends RecursoNaoEncontradoExce
     }
 
 }
-

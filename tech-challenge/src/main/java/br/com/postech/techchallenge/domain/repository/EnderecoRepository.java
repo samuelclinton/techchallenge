@@ -10,4 +10,3 @@ import java.util.Optional;
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
     Optional<Endereco> findByCodigo(String codigo);
 }
-

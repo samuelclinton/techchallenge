@@ -26,4 +26,3 @@ public final class EnderecoInput implements DomainEntityInputModel {
     private String estado;
 
 }
-

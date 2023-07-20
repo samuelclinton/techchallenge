@@ -33,4 +33,3 @@ public class CadastrarPessoaInput implements PessoaInputModel {
     private ParenteInput parente;
 
 }
-
