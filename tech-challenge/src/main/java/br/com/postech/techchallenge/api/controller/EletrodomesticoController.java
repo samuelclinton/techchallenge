@@ -23,7 +23,7 @@ public class EletrodomesticoController {
 
     @GetMapping("/{codigo}")
     public EletrodomesticoOutput buscar(@PathVariable String codigo) {
-        return eletrodomesticoService.buscar(codigo);
+        return eletrodomesticoService.buscarEConverterParaOutput(codigo);
     }
 
     @PostMapping

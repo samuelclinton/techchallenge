@@ -27,7 +27,7 @@ public class PessoaController {
 
     @GetMapping("/{codigo}")
     public PessoaOutput buscar(@PathVariable String codigo) {
-        return pessoaService.buscar(codigo);
+        return pessoaService.buscarEConverterParaOutput(codigo);
     }
 
     @PostMapping
