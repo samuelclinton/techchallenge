@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -18,17 +19,12 @@ public class DomainEntityMapperImpl<I extends DomainEntityInputModel, O extends 
     private ModelMapper modelMapper;
 
     @Override
-    public void copiarPropriedadesEntreEntidades(E entidadeOrigem, E entidadeDestino) {
-        this.modelMapper.map(entidadeOrigem, entidadeDestino);
-    }
-
-    @Override
     public E converterInputParaEntidade(I input, Class<E> entityClass) {
         return this.modelMapper.map(input, entityClass);
     }
 
     @Override
-    public List<O> converterEntidadesParaListaDeOutputs(List<E> entities, Class<O> outputClass) {
+    public List<O> converterEntidadesParaListaDeOutputs(Collection<E> entities, Class<O> outputClass) {
         return entities.stream()
           .map(entidade -> this.converterEntidadeParaOutput(entidade, outputClass))
           .toList();
@@ -39,4 +35,3 @@ public class DomainEntityMapperImpl<I extends DomainEntityInputModel, O extends 
         return this.modelMapper.map(entidade, outputClass);
     }
 }
-
