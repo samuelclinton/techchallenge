@@ -1,7 +1,6 @@
 package br.com.postech.techchallenge.api.model.input;
 
 import br.com.postech.techchallenge.domain.model.enums.Sexo;
-import jakarta.validation.Valid;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,8 +17,5 @@ public class AtualizarPessoaInput implements PessoaInputModel {
     private LocalDate dataNascimento;
 
     private Sexo sexo;
-
-    @Valid
-    private ParenteInput parente;
 
 }

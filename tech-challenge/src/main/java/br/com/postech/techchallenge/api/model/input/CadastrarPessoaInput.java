@@ -1,6 +1,5 @@
 package br.com.postech.techchallenge.api.model.input;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -28,8 +27,5 @@ public class CadastrarPessoaInput implements PessoaInputModel {
     @NotBlank
     @Length(max = 14)
     private String cpf;
-
-    @Valid
-    private ParenteInput parente;
 
 }

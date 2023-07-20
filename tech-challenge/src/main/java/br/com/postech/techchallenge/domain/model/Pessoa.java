@@ -2,11 +2,16 @@ package br.com.postech.techchallenge.domain.model;
 
 import br.com.postech.techchallenge.domain.model.enums.Sexo;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -37,11 +42,20 @@ public final class Pessoa implements DomainEntity {
     @Column(nullable = false, unique = true)
     private String cpf;
 
-    @ManyToOne
-    private Pessoa parente;
-
     @CreationTimestamp
     private Instant dataCadastro;
 
-}
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Endereco> enderecos = new HashSet<>();
 
+    public void adicionarEndereco(Endereco endereco) {
+        this.enderecos.add(endereco);
+        endereco.getResidentes().add(this);
+    }
+
+    public void removerEndereco(Endereco endereco) {
+        this.enderecos.remove(endereco);
+        endereco.getResidentes().remove(this);
+    }
+
+}

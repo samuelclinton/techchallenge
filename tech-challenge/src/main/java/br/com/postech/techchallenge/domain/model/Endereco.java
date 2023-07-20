@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,5 +40,8 @@ public class Endereco implements DomainEntity {
     @Column(nullable = false, length = 2)
     @Enumerated(EnumType.STRING)
     private Estado estado;
+
+    @ManyToMany(mappedBy = "enderecos")
+    private Set<Pessoa> residentes = new HashSet<>();
 
 }
