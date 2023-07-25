@@ -3,10 +3,8 @@ package br.com.postech.techchallenge.api.model.output;
 import br.com.postech.techchallenge.domain.data.DomainEntityOutputModel;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class EnderecoOutput implements DomainEntityOutputModel {
+public class EnderecoResumoOutput implements DomainEntityOutputModel {
 
     private String codigo;
     private String rua;
@@ -14,6 +12,5 @@ public class EnderecoOutput implements DomainEntityOutputModel {
     private String bairro;
     private String cidade;
     private String estado;
-    private List<PessoaResumoOutput> residentes;
 
 }

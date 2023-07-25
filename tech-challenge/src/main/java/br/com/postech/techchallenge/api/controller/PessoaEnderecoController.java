@@ -2,6 +2,7 @@ package br.com.postech.techchallenge.api.controller;
 
 import br.com.postech.techchallenge.api.model.input.EnderecoInput;
 import br.com.postech.techchallenge.api.model.output.EnderecoOutput;
+import br.com.postech.techchallenge.api.model.output.EnderecoResumoOutput;
 import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.service.EnderecoService;
 import br.com.postech.techchallenge.domain.service.PessoaService;
@@ -27,12 +28,15 @@ public class PessoaEnderecoController {
     @Autowired
     private DomainEntityMapperImpl<EnderecoInput, EnderecoOutput, Endereco> enderecoMapper;
 
+    @Autowired
+    private DomainEntityMapperImpl<EnderecoInput, EnderecoResumoOutput, Endereco> enderecoResumoMapper;
+
     @GetMapping
     @Transactional
-    public List<EnderecoOutput> listar(@PathVariable String codigoPessoa) {
+    public List<EnderecoResumoOutput> listar(@PathVariable String codigoPessoa) {
         var pessoa = pessoaService.buscar(codigoPessoa);
         var enderecos = pessoa.getEnderecos();
-        return enderecoMapper.converterEntidadesParaListaDeOutputs(enderecos, EnderecoOutput.class);
+        return enderecoResumoMapper.mapearEntidadesParaListaDeOutputs(enderecos, EnderecoResumoOutput.class);
     }
 
     @PostMapping
@@ -40,7 +44,9 @@ public class PessoaEnderecoController {
     @Transactional
     public EnderecoOutput adicionar(@PathVariable String codigoPessoa, @Valid @RequestBody EnderecoInput enderecoInput) {
         var pessoa = pessoaService.buscar(codigoPessoa);
-        return enderecoService.cadastrar(pessoa, enderecoInput);
+        var endereco = enderecoResumoMapper.mapearInputParaEntidade(enderecoInput, Endereco.class);
+        endereco = enderecoService.cadastrar(pessoa, endereco);
+        return enderecoMapper.mapearEntidadeParaOutput(endereco, EnderecoOutput.class);
     }
 
     @DeleteMapping("/{codigoEndereco}")
