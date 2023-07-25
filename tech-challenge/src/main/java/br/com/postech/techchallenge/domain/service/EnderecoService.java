@@ -11,5 +11,7 @@ public interface EnderecoService {
     Endereco cadastrar(Pessoa pessoa, Endereco endereco);
     Endereco atualizar(String codigoEndereco, Endereco enderecoAtualizado);
     void deletar(Pessoa pessoa, String codigoEndereco);
+    void adicionarResidente(Endereco endereco, Pessoa residente);
+    void removerResidente(Endereco endereco, Pessoa residente);
 
 }

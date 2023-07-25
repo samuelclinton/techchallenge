@@ -59,4 +59,18 @@ public class EnderecoServiceImpl implements EnderecoService {
         enderecoRepository.delete(endereco);
     }
 
+    @Override
+    @Transactional
+    public void adicionarResidente(Endereco endereco, Pessoa pessoa) {
+        pessoa.adicionarEndereco(endereco);
+        pessoaRepository.save(pessoa);
+    }
+
+    @Override
+    @Transactional
+    public void removerResidente(Endereco endereco, Pessoa pessoa) {
+        pessoa.removerEndereco(endereco);
+        pessoaRepository.save(pessoa);
+    }
+
 }

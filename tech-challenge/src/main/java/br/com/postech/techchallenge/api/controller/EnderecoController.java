@@ -1,11 +1,13 @@
 package br.com.postech.techchallenge.api.controller;
 
+import br.com.postech.techchallenge.api.model.input.CodigoPessoaInput;
 import br.com.postech.techchallenge.api.model.input.EnderecoInput;
 import br.com.postech.techchallenge.api.model.output.EnderecoOutput;
 import br.com.postech.techchallenge.api.model.output.EnderecoResumoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
 import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.service.EnderecoService;
+import br.com.postech.techchallenge.domain.service.PessoaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,9 @@ public class EnderecoController {
 
     @Autowired
     private EnderecoService enderecoService;
+
+    @Autowired
+    private PessoaService pessoaService;
 
     @Autowired
     private DomainEntityMapper<EnderecoInput, EnderecoOutput, Endereco> enderecoMapper;
@@ -46,6 +51,26 @@ public class EnderecoController {
         var enderecoAtualizado = enderecoMapper.mapearInputParaEntidade(enderecoInput, Endereco.class);
         enderecoAtualizado = enderecoService.atualizar(codigoEndereco, enderecoAtualizado);
         return enderecoMapper.mapearEntidadeParaOutput(enderecoAtualizado, EnderecoOutput.class);
+    }
+
+    @PutMapping("/{codigoEndereco}/residentes")
+    @Transactional
+    public EnderecoOutput adicionarResidente(@PathVariable String codigoEndereco,
+                                             @Valid @RequestBody CodigoPessoaInput codigoPessoaInput) {
+        var endereco = enderecoService.buscar(codigoEndereco);
+        var pessoa = pessoaService.buscar(codigoPessoaInput.getCodigoPessoa());
+        enderecoService.adicionarResidente(endereco, pessoa);
+        return enderecoMapper.mapearEntidadeParaOutput(endereco, EnderecoOutput.class);
+    }
+
+    @DeleteMapping("/{codigoEndereco}/residentes/{codigoPessoa}")
+    @Transactional
+    public EnderecoOutput removerResidente(@PathVariable String codigoEndereco,
+                                           @PathVariable String codigoPessoa) {
+        var endereco = enderecoService.buscar(codigoEndereco);
+        var pessoa = pessoaService.buscar(codigoPessoa);
+        enderecoService.removerResidente(endereco, pessoa);
+        return enderecoMapper.mapearEntidadeParaOutput(endereco, EnderecoOutput.class);
     }
 
 }
