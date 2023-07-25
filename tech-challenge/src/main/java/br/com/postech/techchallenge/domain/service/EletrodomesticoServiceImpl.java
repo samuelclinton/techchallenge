@@ -31,20 +31,20 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
     @Override
     public EletrodomesticoOutput buscarEConverterParaOutput(String id) {
         final var eletrodomesticos = buscar(id);
-        return mapper.converterEntidadeParaOutput(eletrodomesticos, EletrodomesticoOutput.class);
+        return mapper.mapearEntidadeParaOutput(eletrodomesticos, EletrodomesticoOutput.class);
     }
 
     @Override
     public List<EletrodomesticoOutput> listar() {
         final var eletrodomesticos = eletrodomesticoRepository.findAll();
-        return mapper.converterEntidadesParaListaDeOutputs(eletrodomesticos, EletrodomesticoOutput.class);
+        return mapper.mapearEntidadesParaListaDeOutputs(eletrodomesticos, EletrodomesticoOutput.class);
     }
 
     @Override
     @Transactional
     public EletrodomesticoOutput cadastrar(EletrodomesticoInput eletrodomesticoInput) {
-        final var eletrodomestico = eletrodomesticoRepository.save(mapper.converterInputParaEntidade(eletrodomesticoInput, Eletrodomestico.class));
-        return mapper.converterEntidadeParaOutput(eletrodomestico, EletrodomesticoOutput.class);
+        final var eletrodomestico = eletrodomesticoRepository.save(mapper.mapearInputParaEntidade(eletrodomesticoInput, Eletrodomestico.class));
+        return mapper.mapearEntidadeParaOutput(eletrodomestico, EletrodomesticoOutput.class);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
         final var eletrodomesticoAtual = buscar(id);
         BeanUtils.copyProperties(eletrodomesticoInput, eletrodomesticoAtual);
         eletrodomesticoRepository.save(eletrodomesticoAtual);
-        return mapper.converterEntidadeParaOutput(eletrodomesticoAtual, EletrodomesticoOutput.class);
+        return mapper.mapearEntidadeParaOutput(eletrodomesticoAtual, EletrodomesticoOutput.class);
     }
 
     @Override

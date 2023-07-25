@@ -35,13 +35,13 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public PessoaOutput buscarEConverterParaOutput(String codigo) {
         final var pessoa = buscar(codigo);
-        return mapper.converterEntidadeParaOutput(pessoa, PessoaOutput.class);
+        return mapper.mapearEntidadeParaOutput(pessoa, PessoaOutput.class);
     }
 
     @Override
     public List<PessoaOutput> listar() {
         final var pessoas = pessoaRepository.findAll();
-        return mapper.converterEntidadesParaListaDeOutputs(pessoas, PessoaOutput.class);
+        return mapper.mapearEntidadesParaListaDeOutputs(pessoas, PessoaOutput.class);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class PessoaServiceImpl implements PessoaService {
         if (pessoaExistente.isPresent()) {
             throw new CpfExistenteException(cadastrarPessoaInput.getCpf());
         }
-        final var novaPessoa = mapper.converterInputParaEntidade(cadastrarPessoaInput, Pessoa.class);
-        return mapper.converterEntidadeParaOutput(pessoaRepository.save(novaPessoa), PessoaOutput.class);
+        final var novaPessoa = mapper.mapearInputParaEntidade(cadastrarPessoaInput, Pessoa.class);
+        return mapper.mapearEntidadeParaOutput(pessoaRepository.save(novaPessoa), PessoaOutput.class);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class PessoaServiceImpl implements PessoaService {
         final var pessoaExistente = buscar(codigo);
         BeanUtils.copyProperties(atualizarPessoaInput, pessoaExistente);
         pessoaRepository.save(pessoaExistente);
-        return mapper.converterEntidadeParaOutput(pessoaExistente, PessoaOutput.class);
+        return mapper.mapearEntidadeParaOutput(pessoaExistente, PessoaOutput.class);
     }
 
     @Override

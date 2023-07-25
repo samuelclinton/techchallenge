@@ -19,19 +19,19 @@ public class DomainEntityMapperImpl<I extends DomainEntityInputModel, O extends 
     private ModelMapper modelMapper;
 
     @Override
-    public E converterInputParaEntidade(I input, Class<E> entityClass) {
+    public E mapearInputParaEntidade(I input, Class<E> entityClass) {
         return this.modelMapper.map(input, entityClass);
     }
 
     @Override
-    public List<O> converterEntidadesParaListaDeOutputs(Collection<E> entities, Class<O> outputClass) {
+    public List<O> mapearEntidadesParaListaDeOutputs(Collection<E> entities, Class<O> outputClass) {
         return entities.stream()
-          .map(entidade -> this.converterEntidadeParaOutput(entidade, outputClass))
+          .map(entidade -> this.mapearEntidadeParaOutput(entidade, outputClass))
           .toList();
     }
 
     @Override
-    public O converterEntidadeParaOutput(E entidade, Class<O> outputClass) {
+    public O mapearEntidadeParaOutput(E entidade, Class<O> outputClass) {
         return this.modelMapper.map(entidade, outputClass);
     }
 }
