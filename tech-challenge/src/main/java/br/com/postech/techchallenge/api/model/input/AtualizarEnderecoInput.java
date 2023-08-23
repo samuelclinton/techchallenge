@@ -5,7 +5,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public final class EnderecoInput implements EnderecoInputModel {
+public final class AtualizarEnderecoInput implements EnderecoInputModel {
 
     @NotBlank
     private String rua;
@@ -23,9 +23,5 @@ public final class EnderecoInput implements EnderecoInputModel {
     @NotBlank
     @Length(max = 2)
     private String estado;
-
-    @NotBlank
-    @Length(min = 36, max = 36)
-    private String codigoResponsavel;
 
 }

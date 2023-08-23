@@ -14,6 +14,7 @@ public class EnderecoOutput implements DomainEntityOutputModel {
     private String bairro;
     private String cidade;
     private String estado;
+    private PessoaResumoOutput responsavel;
     private List<PessoaResumoOutput> residentes;
 
 }
