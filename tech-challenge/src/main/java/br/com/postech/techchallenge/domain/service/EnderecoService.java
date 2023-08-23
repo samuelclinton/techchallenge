@@ -10,7 +10,7 @@ public interface EnderecoService {
     List<Endereco> listar();
     Endereco cadastrar(Pessoa pessoa, Endereco endereco);
     Endereco atualizar(String codigoEndereco, Endereco enderecoAtualizado);
-    void deletar(Pessoa pessoa, String codigoEndereco);
+    void deletar(String codigoEndereco);
     void adicionarResidente(Endereco endereco, Pessoa residente);
     void removerResidente(Endereco endereco, Pessoa residente);
 

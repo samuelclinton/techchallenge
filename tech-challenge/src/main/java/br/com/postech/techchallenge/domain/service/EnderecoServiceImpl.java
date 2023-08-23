@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +39,7 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public Endereco cadastrar(Pessoa pessoa, Endereco endereco) {
         pessoa.adicionarEndereco(endereco);
+        endereco.setResponsavel(pessoa);
         pessoaRepository.save(pessoa);
         return endereco;
     }
@@ -46,16 +48,17 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public Endereco atualizar(String codigoEndereco, Endereco endereco) {
         final var enderecoAtual = buscar(codigoEndereco);
-        domainEntityUtils.copiarPropriedades(endereco, enderecoAtual, "residentes");
+        domainEntityUtils.copiarPropriedades(endereco, enderecoAtual, "responsavel", "residentes");
         enderecoRepository.save(enderecoAtual);
         return enderecoAtual;
     }
 
     @Override
     @Transactional
-    public void deletar(Pessoa pessoa, String codigoEndereco) {
+    public void deletar(String codigoEndereco) {
         final var endereco = buscar(codigoEndereco);
-        pessoa.removerEndereco(endereco);
+        final var residentes = new ArrayList<>(endereco.getResidentes());
+        residentes.forEach(residente -> residente.removerEndereco(endereco));
         enderecoRepository.delete(endereco);
     }
 
