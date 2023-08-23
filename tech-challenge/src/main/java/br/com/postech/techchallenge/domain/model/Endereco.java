@@ -41,6 +41,9 @@ public class Endereco implements DomainEntity {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
+    @ManyToOne
+    private Pessoa responsavel;
+
     @ManyToMany(mappedBy = "enderecos")
     private Set<Pessoa> residentes = new HashSet<>();
 
