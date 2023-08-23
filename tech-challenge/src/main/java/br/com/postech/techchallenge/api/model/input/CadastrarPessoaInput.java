@@ -25,7 +25,7 @@ public class CadastrarPessoaInput implements PessoaInputModel {
 
     @CPF
     @NotBlank
-    @Length(max = 14)
+    @Length(max = 11)
     private String cpf;
 
 }
