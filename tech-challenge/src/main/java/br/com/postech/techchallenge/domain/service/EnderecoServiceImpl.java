@@ -66,6 +66,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public void adicionarResidente(Endereco endereco, Pessoa pessoa) {
         pessoa.adicionarEndereco(endereco);
+        var eletrodomesticos = new ArrayList<>(endereco.getEletrodomesticos());
+        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.adicionarUsuario(pessoa));
         pessoaRepository.save(pessoa);
     }
 
@@ -73,6 +75,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public void removerResidente(Endereco endereco, Pessoa pessoa) {
         pessoa.removerEndereco(endereco);
+        var eletrodomesticos = new ArrayList<>(endereco.getEletrodomesticos());
+        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.removerUsuario(pessoa));
         pessoaRepository.save(pessoa);
     }
 

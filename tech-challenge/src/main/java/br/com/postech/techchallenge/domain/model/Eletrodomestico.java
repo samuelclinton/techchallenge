@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,5 +40,21 @@ public class Eletrodomestico implements DomainEntity {
 
     @Column(nullable = false)
     private String marca;
+
+    @ManyToMany
+    private Set<Pessoa> usuarios = new HashSet<>();
+
+    public Float calcularConsumo(Integer minutosDeUso) {
+        var consumo = (this.potencia * minutosDeUso) / 60;
+        return consumo / 1000;
+    }
+
+    public void adicionarUsuario(Pessoa usuario) {
+        this.usuarios.add(usuario);
+    }
+
+    public void removerUsuario(Pessoa usuario) {
+        this.usuarios.remove(usuario);
+    }
 
 }

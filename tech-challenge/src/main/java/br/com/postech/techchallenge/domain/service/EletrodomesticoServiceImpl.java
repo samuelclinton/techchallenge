@@ -1,17 +1,17 @@
 package br.com.postech.techchallenge.domain.service;
 
 
-import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
-import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
-import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
+import br.com.postech.techchallenge.domain.data.DomainEntityUtils;
 import br.com.postech.techchallenge.domain.exception.EletrodomesticoNaoEncontradoException;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
+import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.repository.EletrodomesticoRepository;
-import org.springframework.beans.BeanUtils;
+import br.com.postech.techchallenge.domain.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,45 +21,56 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
     private EletrodomesticoRepository eletrodomesticoRepository;
 
     @Autowired
-    private DomainEntityMapper<EletrodomesticoInput, EletrodomesticoOutput, Eletrodomestico> mapper;
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private EnderecoService enderecoService;
+
+    @Autowired
+    private DomainEntityUtils domainEntityUtils;
 
     @Override
-    public Eletrodomestico buscar(String codigo) {
-        return eletrodomesticoRepository.findByCodigo(codigo).orElseThrow(() -> new EletrodomesticoNaoEncontradoException(codigo));
-    }
-
-    @Override
-    public EletrodomesticoOutput buscarEConverterParaOutput(String id) {
-        final var eletrodomesticos = buscar(id);
-        return mapper.mapearEntidadeParaOutput(eletrodomesticos, EletrodomesticoOutput.class);
-    }
-
-    @Override
-    public List<EletrodomesticoOutput> listar() {
-        final var eletrodomesticos = eletrodomesticoRepository.findAll();
-        return mapper.mapearEntidadesParaListaDeOutputs(eletrodomesticos, EletrodomesticoOutput.class);
+    @Transactional
+    public Eletrodomestico buscar(String codigoEletrodomestico) {
+        return eletrodomesticoRepository.findByCodigo(codigoEletrodomestico)
+                .orElseThrow(() -> new EletrodomesticoNaoEncontradoException(codigoEletrodomestico));
     }
 
     @Override
     @Transactional
-    public EletrodomesticoOutput cadastrar(EletrodomesticoInput eletrodomesticoInput) {
-        final var eletrodomestico = eletrodomesticoRepository.save(mapper.mapearInputParaEntidade(eletrodomesticoInput, Eletrodomestico.class));
-        return mapper.mapearEntidadeParaOutput(eletrodomestico, EletrodomesticoOutput.class);
+    public List<Eletrodomestico> listar() {
+        return eletrodomesticoRepository.findAll();
     }
 
     @Override
     @Transactional
-    public EletrodomesticoOutput atualizar(String id, EletrodomesticoInput eletrodomesticoInput) {
-        final var eletrodomesticoAtual = buscar(id);
-        BeanUtils.copyProperties(eletrodomesticoInput, eletrodomesticoAtual);
-        eletrodomesticoRepository.save(eletrodomesticoAtual);
-        return mapper.mapearEntidadeParaOutput(eletrodomesticoAtual, EletrodomesticoOutput.class);
+    public Eletrodomestico cadastrar(Endereco endereco, Eletrodomestico eletrodomestico) {
+        endereco.adicionarEletrodomestico(eletrodomestico);
+        endereco.getResidentes().forEach(eletrodomestico::adicionarUsuario);
+        enderecoRepository.save(endereco);
+        return eletrodomestico;
     }
 
     @Override
     @Transactional
-    public void deletar(String id) {
-        final var eletrodomestico = buscar(id);
+    public Eletrodomestico atualizar(String codigoEletrodomestico, Eletrodomestico eletrodomestico) {
+        final var eletrodomesticoAtual = buscar(codigoEletrodomestico);
+        domainEntityUtils.copiarPropriedades(eletrodomestico, eletrodomesticoAtual, "usuarios");
+        return eletrodomesticoRepository.save(eletrodomesticoAtual);
+    }
+
+    @Override
+    @Transactional
+    public void deletar(String codigoEndereco, String codigoEletrodomestico) {
+        final var eletrodomestico = buscar(codigoEletrodomestico);
+        final var endereco = enderecoService.buscar(codigoEndereco);
+
+        endereco.removerEletrodomestico(eletrodomestico);
+
+        final var usuarios = new ArrayList<>(eletrodomestico.getUsuarios());
+        usuarios.forEach(eletrodomestico::removerUsuario);
+
         eletrodomesticoRepository.delete(eletrodomestico);
     }
+
 }

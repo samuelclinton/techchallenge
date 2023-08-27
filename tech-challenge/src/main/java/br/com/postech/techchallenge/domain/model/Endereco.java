@@ -47,4 +47,15 @@ public class Endereco implements DomainEntity {
     @ManyToMany(mappedBy = "enderecos")
     private Set<Pessoa> residentes = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Eletrodomestico> eletrodomesticos = new HashSet<>();
+
+    public void adicionarEletrodomestico(Eletrodomestico eletrodomestico) {
+        this.eletrodomesticos.add(eletrodomestico);
+    }
+
+    public void removerEletrodomestico(Eletrodomestico eletrodomestico) {
+        this.eletrodomesticos.remove(eletrodomestico);
+    }
+
 }

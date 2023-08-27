@@ -1,16 +1,15 @@
 package br.com.postech.techchallenge.domain.service;
 
-import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
-import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
+import br.com.postech.techchallenge.domain.model.Endereco;
 
 import java.util.List;
 
 public interface EletrodomesticoService {
   Eletrodomestico buscar(String codigo);
-  EletrodomesticoOutput buscarEConverterParaOutput(String codigo);
-  List<EletrodomesticoOutput> listar();
-  EletrodomesticoOutput cadastrar(EletrodomesticoInput eletrodomesticoInput);
-  EletrodomesticoOutput atualizar(String codigo, EletrodomesticoInput eletrodomesticoInput);
-  void deletar(String codigo);
+  List<Eletrodomestico> listar();
+  Eletrodomestico cadastrar(Endereco endereco, Eletrodomestico eletrodomestico);
+  Eletrodomestico atualizar(String codigo, Eletrodomestico eletrodomestico);
+  void deletar(String codigoEndereco, String codigoEletrodomestico);
+
 }
