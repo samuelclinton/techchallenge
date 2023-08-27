@@ -44,8 +44,8 @@ public class Eletrodomestico implements DomainEntity {
     @ManyToMany
     private Set<Pessoa> usuarios = new HashSet<>();
 
-    public Float calcularConsumo(Integer minutosDeUso) {
-        var consumo = (this.potencia * minutosDeUso) / 60;
+    public Float calcularConsumo(Integer minutosEmUso) {
+        var consumo = (this.potencia * minutosEmUso) / 60;
         return consumo / 1000;
     }
 

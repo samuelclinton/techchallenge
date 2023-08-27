@@ -1,6 +1,7 @@
 package br.com.postech.techchallenge.domain.service;
 
 
+import br.com.postech.techchallenge.api.model.output.RelatorioDeCalculoDeConsumoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityUtils;
 import br.com.postech.techchallenge.domain.exception.EletrodomesticoNaoEncontradoException;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
@@ -30,7 +31,6 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
     private DomainEntityUtils domainEntityUtils;
 
     @Override
-    @Transactional
     public Eletrodomestico buscar(String codigoEletrodomestico) {
         return eletrodomesticoRepository.findByCodigo(codigoEletrodomestico)
                 .orElseThrow(() -> new EletrodomesticoNaoEncontradoException(codigoEletrodomestico));
@@ -71,6 +71,12 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
         usuarios.forEach(eletrodomestico::removerUsuario);
 
         eletrodomesticoRepository.delete(eletrodomestico);
+    }
+
+    @Override
+    public RelatorioDeCalculoDeConsumoOutput calcularConsumo(String codigoEletrodomestico, Integer minutosEmUso) {
+        final var eletrodomestico = buscar(codigoEletrodomestico);
+        return new RelatorioDeCalculoDeConsumoOutput(eletrodomestico.calcularConsumo(minutosEmUso));
     }
 
 }

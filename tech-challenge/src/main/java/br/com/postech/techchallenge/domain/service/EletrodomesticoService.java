@@ -1,5 +1,6 @@
 package br.com.postech.techchallenge.domain.service;
 
+import br.com.postech.techchallenge.api.model.output.RelatorioDeCalculoDeConsumoOutput;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
 import br.com.postech.techchallenge.domain.model.Endereco;
 
@@ -11,5 +12,6 @@ public interface EletrodomesticoService {
   Eletrodomestico cadastrar(Endereco endereco, Eletrodomestico eletrodomestico);
   Eletrodomestico atualizar(String codigo, Eletrodomestico eletrodomestico);
   void deletar(String codigoEndereco, String codigoEletrodomestico);
+  RelatorioDeCalculoDeConsumoOutput calcularConsumo(String codigoEletrodomestico, Integer minutosEmUso);
 
 }

@@ -3,6 +3,7 @@ package br.com.postech.techchallenge.api.controller;
 import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
 import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
 import br.com.postech.techchallenge.api.model.output.EletrodomesticoResumoOutput;
+import br.com.postech.techchallenge.api.model.output.RelatorioDeCalculoDeConsumoOutput;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
 import br.com.postech.techchallenge.domain.service.EletrodomesticoService;
 import br.com.postech.techchallenge.domain.service.EnderecoService;
@@ -65,6 +66,12 @@ public class EnderecoEletrodomesticoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable String codigoEndereco, @PathVariable String codigoEletrodomestico) {
         eletrodomesticoService.deletar(codigoEndereco, codigoEletrodomestico);
+    }
+
+    @GetMapping("/{codigoEletrodomestico}/calculo-de-consumo")
+    public RelatorioDeCalculoDeConsumoOutput calculoDeConsumo(@PathVariable String codigoEletrodomestico,
+                                                              @RequestParam Integer minutosEmUso) {
+        return eletrodomesticoService.calcularConsumo(codigoEletrodomestico, minutosEmUso);
     }
 
 }
