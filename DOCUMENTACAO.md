@@ -661,12 +661,12 @@ Status de retorno esperado: **201 - CREATED**
 #### *Exemplo de payload da resposta* <br /><br />
 
 	{
-    "codigo": "e4edb59c-879c-4b71-9923-277da54fd789",
-    "nome": "Bernard Christiansen",
-    "dataNascimento": "2006-08-02",
-    "genero": "MASCULINO",
-    "cpf": "85655579871",
-    "tipoDeUsuario": "DEPENDENTE",
-    "dataCadastro": "2023-09-04T21:42:16.601390400Z"
-}
+	    "codigo": "e4edb59c-879c-4b71-9923-277da54fd789",
+	    "nome": "Bernard Christiansen",
+	    "dataNascimento": "2006-08-02",
+	    "genero": "MASCULINO",
+	    "cpf": "85655579871",
+	    "tipoDeUsuario": "DEPENDENTE",
+	    "dataCadastro": "2023-09-04T21:42:16.601390400Z"
+	}
 <br />
