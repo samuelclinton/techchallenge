@@ -3,16 +3,14 @@ package br.com.postech.techchallenge.api.controller;
 import br.com.postech.techchallenge.api.model.input.EletrodomesticoInput;
 import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
 import br.com.postech.techchallenge.api.model.output.EletrodomesticoResumoOutput;
+import br.com.postech.techchallenge.api.model.output.RelatorioDeCalculoDeConsumoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
 import br.com.postech.techchallenge.domain.repository.filter.EletrodomesticoFilter;
 import br.com.postech.techchallenge.domain.service.EletrodomesticoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +39,12 @@ public class EletrodomesticoController {
     public EletrodomesticoOutput buscar(@PathVariable String codigoEletrodomestico) {
         final var eletrodomestico = eletrodomesticoService.buscar(codigoEletrodomestico);
         return eletrodomesticoMapper.mapearEntidadeParaOutput(eletrodomestico, EletrodomesticoOutput.class);
+    }
+
+    @GetMapping("/{codigoEletrodomestico}/calculo-de-consumo")
+    public RelatorioDeCalculoDeConsumoOutput calculoDeConsumo(@PathVariable String codigoEletrodomestico,
+                                                              @RequestParam Integer minutosEmUso) {
+        return eletrodomesticoService.calcularConsumo(codigoEletrodomestico, minutosEmUso);
     }
 
 }
