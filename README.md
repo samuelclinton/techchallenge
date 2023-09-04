@@ -72,12 +72,17 @@ Estes são os passos para a execução do projeto num ambiente local.
 O desenvolvimento do projeto por enquanto foi simples e sem grandes dificuldades, mas como resolvemos implementar a persistência (que era opcional nessa fase) logo de início, nos deparamos com o relacionamento de Pessoas com Pessoas, no caso o parentesco. No nosso entendimento isso é mais uma questão de vínculo entre clientes do que o grau de parentesco em sí (filhos, pais, sobrinhos, tios). Com isso em mente, fizemos um relacionamento de autorreferência, onde uma pessoa pode ou não ser vinculada a um parente. O parente que for vinculado a esse parente tem sua "conta" na aplicação vinculada, sendo essa excluída caso o parente da conta principal resolva excluir a sua. A nova feature da Netflix de contas subsidiárias foi uma inspiração aqui.
 Outro conhecimento interessante, que o Junior trouxe de um projeto prévio, foi a criação de um mapeador genérico de classes utilizando o ModelMapper, isso agilizou muito o desenvolvimento dos mapeadores, onde antes teríamos diversos mapeadores "repetidos", apenas com suas classes de origem e destino alteradas, agora temos uma implementação genérica (utilizando a Generics API do Java) que pode ser instanciada para diversas classes com a mesma implementação. Isso aumenta um pouco a complexidade do código porém a produtividade é beneficiada.
 
+### Segunda fase
+A segunda fase apresentou diversas novas dificuldades, começando por coincidir com as minhas férias e uma mudança de grupo, gerou problemas de planejamento e prazo.
+Falando de dificuldades técnicas, escolhi uma abordagem de modelagem do recurso de Pessoa com um auto-relacionamento, e inicialmente gerar relacionamentos entre as pessoas com grau de parentesco. Essa abordagem se mostrou complicada num nível desnecessário, especialmente quando introduzi mais de duas gerações familiares. Simplifiquei essa abordagem com a criação de uma nova entidade Familia que guarda os membros da familia hierarquizados pra exibição futuramente.
+Outro problema enfrentado foi pra cumprir os requisitos da fase, que sempre pediam consultas que geram relacionamentos bi-direcionais e mapeamentos não tão performáticos. Isso é uma coisa que espero alterar na fase três quando o escopo do projeto for afunilando e ficar mais claro o desenho do sistema que consumiria a API.
+Como próximo passo e um extra para a próxima fase, vou implementar também uma documentação Swagger/OpenApi.
+
 ## Autores
 
 - [Samuel Clinton](https://www.linkedin.com/in/samuelclinton)
-- [Eric Moraes](https://www.linkedin.com/in/eric-silva-352082185)
 
-Um agradecimento ao [Junior Martins](https://www.linkedin.com/in/juniorsmartins) e [Matheus Dias](https://www.linkedin.com/in/matheusapdias) que deixaram o curso mas contribuíram com o projeto na primeira fase
+Um agradecimento ao [Junior Martins](https://www.linkedin.com/in/juniorsmartins) e [Matheus Dias](https://www.linkedin.com/in/matheusapdias) que deixaram o grupo mas contribuíram com o projeto na primeira fase e ao [Eric Moraes](https://www.linkedin.com/in/eric-silva-352082185) que fez parte do grupo até a metade da segunda fase.
 
 ## Licença
 
