@@ -5,6 +5,7 @@ import br.com.postech.techchallenge.api.model.output.EletrodomesticoOutput;
 import br.com.postech.techchallenge.api.model.output.EletrodomesticoResumoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
 import br.com.postech.techchallenge.domain.model.Eletrodomestico;
+import br.com.postech.techchallenge.domain.repository.filter.EletrodomesticoFilter;
 import br.com.postech.techchallenge.domain.service.EletrodomesticoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,8 @@ public class EletrodomesticoController {
     private DomainEntityMapper<EletrodomesticoInput, EletrodomesticoResumoOutput, Eletrodomestico> eletrodomesticoResumoMapper;
 
     @GetMapping
-    public List<EletrodomesticoResumoOutput> listar() {
-        final var eletrodomesticos = eletrodomesticoService.listar();
+    public List<EletrodomesticoResumoOutput> listar(EletrodomesticoFilter eletrodomesticoFilter) {
+        final var eletrodomesticos = eletrodomesticoService.pesquisar(eletrodomesticoFilter);
         return eletrodomesticoResumoMapper.mapearEntidadesParaListaDeOutputs(eletrodomesticos,
                 EletrodomesticoResumoOutput.class) ;
     }

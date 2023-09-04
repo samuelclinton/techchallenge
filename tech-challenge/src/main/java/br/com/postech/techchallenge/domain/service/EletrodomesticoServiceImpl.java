@@ -8,6 +8,8 @@ import br.com.postech.techchallenge.domain.model.Eletrodomestico;
 import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.repository.EletrodomesticoRepository;
 import br.com.postech.techchallenge.domain.repository.EnderecoRepository;
+import br.com.postech.techchallenge.domain.repository.filter.EletrodomesticoFilter;
+import br.com.postech.techchallenge.infrastructure.spec.EletrodomesticoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +40,8 @@ public class EletrodomesticoServiceImpl implements EletrodomesticoService {
 
     @Override
     @Transactional
-    public List<Eletrodomestico> listar() {
-        return eletrodomesticoRepository.findAll();
+    public List<Eletrodomestico> pesquisar(EletrodomesticoFilter eletrodomesticoFilter) {
+        return eletrodomesticoRepository.findAll(EletrodomesticoSpecs.usandoFiltro(eletrodomesticoFilter));
     }
 
     @Override
