@@ -2,8 +2,11 @@ package br.com.postech.techchallenge.api.controller;
 
 import br.com.postech.techchallenge.api.model.input.AtualizarPessoaInput;
 import br.com.postech.techchallenge.api.model.input.CadastrarPessoaInput;
+import br.com.postech.techchallenge.api.model.input.PessoaInputModel;
 import br.com.postech.techchallenge.api.model.output.PessoaOutput;
+import br.com.postech.techchallenge.domain.model.Pessoa;
 import br.com.postech.techchallenge.domain.service.PessoaService;
+import br.com.postech.techchallenge.infrastructure.data.DomainEntityMapperImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,18 +23,23 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
+    @Autowired
+    private DomainEntityMapperImpl<PessoaInputModel, PessoaOutput, Pessoa> pessoaMapper;
+
     @GetMapping
     public List<PessoaOutput> listar() {
-        return pessoaService.listar();
+        final var pessoas = pessoaService.listar();
+        return pessoaMapper.mapearEntidadesParaListaDeOutputs(pessoas, PessoaOutput.class);
     }
 
-    @GetMapping("/{codigo}")
-    public PessoaOutput buscar(@PathVariable String codigo) {
-        return pessoaService.buscarEConverterParaOutput(codigo);
+    @GetMapping("/{codigoPessoa}")
+    public PessoaOutput buscarPorCodigo(@PathVariable String codigoPessoa) {
+        final var pessoa = pessoaService.buscar(codigoPessoa);
+        return pessoaMapper.mapearEntidadeParaOutput(pessoa, PessoaOutput.class);
     }
 
     @PostMapping
-    public ResponseEntity<PessoaOutput> cadastrar(@RequestBody @Valid final CadastrarPessoaInput cadastrarPessoaInput,
+    public ResponseEntity<PessoaOutput> cadastrar(@RequestBody @Valid CadastrarPessoaInput cadastrarPessoaInput,
                                                   UriComponentsBuilder uriBuilder) {
 
       final var pessoa = pessoaService.cadastrar(cadastrarPessoaInput);
@@ -54,4 +62,3 @@ public class PessoaController {
     }
 
 }
-

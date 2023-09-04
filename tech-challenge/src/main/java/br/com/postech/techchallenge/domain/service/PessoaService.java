@@ -10,9 +10,10 @@ import java.util.List;
 public interface PessoaService {
 
   Pessoa buscar(String codigo);
-  PessoaOutput buscarEConverterParaOutput(String codigo);
-  List<PessoaOutput> listar();
+  List<Pessoa> listar();
   PessoaOutput cadastrar(CadastrarPessoaInput cadastrarPessoaInput);
+
+  PessoaOutput cadastrarFamiliar(CadastrarPessoaInput cadastrarPessoaInput, Pessoa responsavel);
   PessoaOutput atualizar(String codigo, AtualizarPessoaInput atualizarPessoaInput);
   void deletar(String codigo);
 

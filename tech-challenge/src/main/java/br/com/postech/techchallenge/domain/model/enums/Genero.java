@@ -1,6 +1,6 @@
 package br.com.postech.techchallenge.domain.model.enums;
 
-public enum Sexo {
+public enum Genero {
 
     MASCULINO, FEMININO
 

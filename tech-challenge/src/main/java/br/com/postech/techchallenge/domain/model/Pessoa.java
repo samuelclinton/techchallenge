@@ -1,6 +1,8 @@
 package br.com.postech.techchallenge.domain.model;
 
-import br.com.postech.techchallenge.domain.model.enums.Sexo;
+import br.com.postech.techchallenge.domain.model.enums.NivelHierarquicoFamiliar;
+import br.com.postech.techchallenge.domain.model.enums.Genero;
+import br.com.postech.techchallenge.domain.model.enums.TipoDeUsuario;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public final class Pessoa implements DomainEntity {
+public class Pessoa implements DomainEntity {
 
     @Id
     @EqualsAndHashCode.Include
@@ -37,13 +39,22 @@ public final class Pessoa implements DomainEntity {
     private LocalDate dataNascimento;
 
     @Enumerated(EnumType.STRING)
-    private Sexo sexo;
+    private Genero genero;
 
     @Column(nullable = false, unique = true)
     private String cpf;
 
     @CreationTimestamp
     private Instant dataCadastro;
+
+    @Enumerated(EnumType.STRING)
+    private TipoDeUsuario tipoDeUsuario;
+
+    @Enumerated(EnumType.STRING)
+    private NivelHierarquicoFamiliar nivelHierarquicoFamiliar;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Familia familia;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Endereco> enderecos = new HashSet<>();

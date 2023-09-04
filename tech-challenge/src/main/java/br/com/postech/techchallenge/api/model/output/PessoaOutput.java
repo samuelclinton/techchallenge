@@ -1,7 +1,7 @@
 package br.com.postech.techchallenge.api.model.output;
 
 import br.com.postech.techchallenge.domain.data.DomainEntityOutputModel;
-import br.com.postech.techchallenge.domain.model.enums.Sexo;
+import br.com.postech.techchallenge.domain.model.enums.Genero;
 import lombok.Data;
 
 import java.time.Instant;
@@ -13,7 +13,7 @@ public class PessoaOutput implements DomainEntityOutputModel {
     private String codigo;
     private String nome;
     private LocalDate dataNascimento;
-    private Sexo sexo;
+    private Genero genero;
     private String cpf;
     private Instant dataCadastro;
 

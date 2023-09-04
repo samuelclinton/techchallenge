@@ -6,7 +6,9 @@ import br.com.postech.techchallenge.api.model.input.PessoaInputModel;
 import br.com.postech.techchallenge.api.model.output.PessoaOutput;
 import br.com.postech.techchallenge.domain.exception.CpfExistenteException;
 import br.com.postech.techchallenge.domain.exception.PessoaNaoEncontradaException;
+import br.com.postech.techchallenge.domain.model.Familia;
 import br.com.postech.techchallenge.domain.model.Pessoa;
+import br.com.postech.techchallenge.domain.model.enums.TipoDeUsuario;
 import br.com.postech.techchallenge.domain.repository.PessoaRepository;
 import br.com.postech.techchallenge.infrastructure.data.DomainEntityMapperImpl;
 import lombok.extern.java.Log;
@@ -28,31 +30,37 @@ public class PessoaServiceImpl implements PessoaService {
     private DomainEntityMapperImpl<PessoaInputModel, PessoaOutput, Pessoa> mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Pessoa buscar(String codigo) {
         return pessoaRepository.findByCodigo(codigo).orElseThrow(() -> new PessoaNaoEncontradaException(codigo));
     }
 
     @Override
-    public PessoaOutput buscarEConverterParaOutput(String codigo) {
-        final var pessoa = buscar(codigo);
-        return mapper.mapearEntidadeParaOutput(pessoa, PessoaOutput.class);
-    }
-
-    @Override
-    public List<PessoaOutput> listar() {
-        final var pessoas = pessoaRepository.findAll();
-        return mapper.mapearEntidadesParaListaDeOutputs(pessoas, PessoaOutput.class);
+    public List<Pessoa> listar() {
+        return pessoaRepository.findAll();
     }
 
     @Override
     @Transactional
     public PessoaOutput cadastrar(CadastrarPessoaInput cadastrarPessoaInput) {
-        final var pessoaExistente = pessoaRepository.findByCpf(cadastrarPessoaInput.getCpf());
-        if (pessoaExistente.isPresent()) {
-            throw new CpfExistenteException(cadastrarPessoaInput.getCpf());
-        }
+        lancarExceptionCasoCPFJaCadastrado(cadastrarPessoaInput.getCpf());
         final var novaPessoa = mapper.mapearInputParaEntidade(cadastrarPessoaInput, Pessoa.class);
+        novaPessoa.setTipoDeUsuario(TipoDeUsuario.RESPONSAVEL);
+        final var novaFamilia = new Familia(novaPessoa);
+        novaPessoa.setFamilia(novaFamilia);
         return mapper.mapearEntidadeParaOutput(pessoaRepository.save(novaPessoa), PessoaOutput.class);
+    }
+
+    @Override
+    @Transactional
+    public PessoaOutput cadastrarFamiliar(CadastrarPessoaInput cadastrarDependenteInput, Pessoa responsavel) {
+        lancarExceptionCasoCPFJaCadastrado(cadastrarDependenteInput.getCpf());
+        var dependente = mapper.mapearInputParaEntidade(cadastrarDependenteInput, Pessoa.class);
+        dependente.setTipoDeUsuario(TipoDeUsuario.DEPENDENTE);
+        responsavel.getFamilia().adicionarMembro(dependente);
+        dependente.setFamilia(responsavel.getFamilia());
+        dependente = pessoaRepository.save(dependente);
+        return mapper.mapearEntidadeParaOutput(dependente, PessoaOutput.class);
     }
 
     @Override
@@ -66,9 +74,26 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     @Transactional
-    public void deletar(String codigo) {
-        final var pessoa = buscar(codigo);
-        pessoaRepository.delete(pessoa);
+    public void deletar(String codigoPessoa) {
+        final var pessoa = buscar(codigoPessoa);
+
+        if (pessoa.getTipoDeUsuario().equals(TipoDeUsuario.DEPENDENTE)) {
+            pessoa.getFamilia().removerMembro(pessoa);
+            pessoaRepository.delete(pessoa);
+        } else {
+            final var familiares = pessoa.getFamilia().pegarTodosOsFamiliares();
+            familiares.remove(pessoa);
+            familiares.forEach(familiar -> deletar(familiar.getCodigo()));
+            pessoaRepository.delete(pessoa);
+        }
+
+    }
+
+    private void lancarExceptionCasoCPFJaCadastrado(String cpf) {
+        final var pessoaExistente = pessoaRepository.findByCpf(cpf);
+        if (pessoaExistente.isPresent()) {
+            throw new CpfExistenteException(cpf);
+        }
     }
 
 }
