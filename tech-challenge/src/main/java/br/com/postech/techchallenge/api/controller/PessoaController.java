@@ -5,6 +5,7 @@ import br.com.postech.techchallenge.api.model.input.CadastrarPessoaInput;
 import br.com.postech.techchallenge.api.model.input.PessoaInputModel;
 import br.com.postech.techchallenge.api.model.output.PessoaOutput;
 import br.com.postech.techchallenge.domain.model.Pessoa;
+import br.com.postech.techchallenge.domain.repository.filter.PessoaFilter;
 import br.com.postech.techchallenge.domain.service.PessoaService;
 import br.com.postech.techchallenge.infrastructure.data.DomainEntityMapperImpl;
 import jakarta.validation.Valid;
@@ -27,8 +28,8 @@ public class PessoaController {
     private DomainEntityMapperImpl<PessoaInputModel, PessoaOutput, Pessoa> pessoaMapper;
 
     @GetMapping
-    public List<PessoaOutput> listar() {
-        final var pessoas = pessoaService.listar();
+    public List<PessoaOutput> pesquisar(PessoaFilter pessoaFilter) {
+        final var pessoas = pessoaService.pesquisar(pessoaFilter);
         return pessoaMapper.mapearEntidadesParaListaDeOutputs(pessoas, PessoaOutput.class);
     }
 

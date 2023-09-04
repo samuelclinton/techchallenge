@@ -10,7 +10,9 @@ import br.com.postech.techchallenge.domain.model.Familia;
 import br.com.postech.techchallenge.domain.model.Pessoa;
 import br.com.postech.techchallenge.domain.model.enums.TipoDeUsuario;
 import br.com.postech.techchallenge.domain.repository.PessoaRepository;
+import br.com.postech.techchallenge.domain.repository.filter.PessoaFilter;
 import br.com.postech.techchallenge.infrastructure.data.DomainEntityMapperImpl;
+import br.com.postech.techchallenge.infrastructure.spec.PessoaSpecs;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,8 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public List<Pessoa> listar() {
-        return pessoaRepository.findAll();
+    public List<Pessoa> pesquisar(PessoaFilter pessoaFilter) {
+        return pessoaRepository.findAll(PessoaSpecs.usandoFiltro(pessoaFilter));
     }
 
     @Override
