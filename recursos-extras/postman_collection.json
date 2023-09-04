@@ -1,0 +1,877 @@
+{
+	"info": {
+		"_postman_id": "ea57eb09-364a-47d4-b542-3039bce48992",
+		"name": "Tech Challenge",
+		"description": "Coleção de requisições para o projeto Tech Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27349627"
+	},
+	"item": [
+		{
+			"name": "Pessoas",
+			"item": [
+				{
+					"name": "Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/pessoas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "Edna Kulas",
+									"disabled": true
+								},
+								{
+									"key": "dataNascimento",
+									"value": "1994-08-02",
+									"disabled": true
+								},
+								{
+									"key": "genero",
+									"value": "FEMININO",
+									"disabled": true
+								},
+								{
+									"key": "cpf",
+									"value": "88720988664",
+									"disabled": true
+								},
+								{
+									"key": "tipoDeUsuario",
+									"value": "RESPONSAVEL",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por código",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"pessoaId\", jsonData.codigo);\r",
+									"\r",
+									"pm.environment.set( \"cadastrarPessoaReq\", pm.request);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"// opicional para postman\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{$randomFullName}}\",\r\n    \"dataNascimento\": \"1994-08-03\",\r\n    \"genero\": \"FEMININO\",\r\n    \"cpf\": \"{{cpf}}\",\r\n    \"nivelHierarquicoFamiliar\": \"FILHOS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/pessoas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"nome\": \"Maria da Paz\",\r\n\t\"dataNascimento\": \"1994-08-27\",\r\n\t\"genero\": \"FEMININO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Familiares",
+			"item": [
+				{
+					"name": "Exibir familia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"residenteId\", jsonData.codigo);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"// opicional para postman\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{$randomFullName}}\",\r\n    \"dataNascimento\": \"1994-08-02\",\r\n    \"sexo\": \"FEMININO\",\r\n    \"cpf\": \"{{cpf}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}/familiares",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}",
+								"familiares"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"familiarId\", jsonData.codigo);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"// opicional para postman\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{$randomFullName}}\",\r\n    \"dataNascimento\": \"2006-08-02\",\r\n    \"genero\": \"MASCULINO\",\r\n    \"cpf\": \"{{cpf}}\",\r\n    \"nivelHierarquicoFamiliar\": \"FILHOS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}/familiares",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}",
+								"familiares"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"nome\": \"Maria Joaquina\",\r\n\t\"dataNascimento\": \"1994-08-27\",\r\n\t\"genero\": \"FEMININO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{familiarId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{familiarId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{familiarId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{familiarId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Endereços",
+			"item": [
+				{
+					"name": "Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos"
+							],
+							"query": [
+								{
+									"key": "rua",
+									"value": "Rua maranguape",
+									"disabled": true
+								},
+								{
+									"key": "numero",
+									"value": "23A",
+									"disabled": true
+								},
+								{
+									"key": "bairro",
+									"value": "Jardim Paulista",
+									"disabled": true
+								},
+								{
+									"key": "cidade",
+									"value": "Cidade teste",
+									"disabled": true
+								},
+								{
+									"key": "estado",
+									"value": "SP",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar por pessoa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/pessoas/{{pessoaId}}/enderecos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"pessoas",
+								"{{pessoaId}}",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por código",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"enderecoId\", jsonData.codigo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"rua\": \"Rua maranguape\",\r\n\t\"numero\": \"23A\",\r\n\t\"bairro\": \"Jardim Paulista\",\r\n\t\"cidade\": \"Osasco\",\r\n\t\"estado\": \"SP\",\r\n    \"codigoResponsavel\": \"{{pessoaId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/enderecos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"rua\": \"Rua alterada\",\r\n\t\"numero\": \"1NOVONUMERO\",\r\n\t\"bairro\": \"Bairro teste\",\r\n\t\"cidade\": \"Cidade teste\",\r\n\t\"estado\": \"MG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar residente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"codigoPessoa\": \"{{familiarId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/residentes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"residentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover residente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/residentes/{{familiarId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"residentes",
+								"{{familiarId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Eletrodomésticos",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/eletrodomesticos/{{eletrodomesticoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"eletrodomesticos",
+								"{{eletrodomesticoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/eletrodomesticos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"eletrodomesticos"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "Lava-louças apartamento",
+									"disabled": true
+								},
+								{
+									"key": "modelo",
+									"value": "VT-203",
+									"disabled": true
+								},
+								{
+									"key": "potenciaMax",
+									"value": "300",
+									"disabled": true
+								},
+								{
+									"key": "potenciaMin",
+									"value": "450",
+									"disabled": true
+								},
+								{
+									"key": "voltagem",
+									"value": "V_110",
+									"disabled": true
+								},
+								{
+									"key": "marca",
+									"value": "Brastemp",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar por endereço",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/eletrodomesticos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"eletrodomesticos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cálculo de consumo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/eletrodomesticos/{{eletrodomesticoId}}/calculo-de-consumo?minutosEmUso=1440",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"eletrodomesticos",
+								"{{eletrodomesticoId}}",
+								"calculo-de-consumo"
+							],
+							"query": [
+								{
+									"key": "minutosEmUso",
+									"value": "1440"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"eletrodomesticoId\", jsonData.codigo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Lava-louças apartamento\",\r\n    \"modelo\": \"VT-203\",\r\n    \"potencia\": 300,\r\n    \"voltagem\": \"V_110\",\r\n    \"marca\": \"Brastemp\",\r\n    \"codigoEndereco\": \"{{enderecoId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/eletrodomesticos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"eletrodomesticos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Máquina de lavar\",\r\n    \"modelo\": \"VT-2023\",\r\n    \"potencia\": 540.12,\r\n    \"voltagem\": \"V_220\",\r\n    \"marca\": \"Electrolux\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/eletrodomesticos/{{eletrodomesticoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"eletrodomesticos",
+								"{{eletrodomesticoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/enderecos/{{enderecoId}}/eletrodomesticos/{{eletrodomesticoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"enderecos",
+								"{{enderecoId}}",
+								"eletrodomesticos",
+								"{{eletrodomesticoId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
