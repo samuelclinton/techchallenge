@@ -48,7 +48,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public Endereco atualizar(String codigoEndereco, Endereco endereco) {
         final var enderecoAtual = buscar(codigoEndereco);
-        domainEntityUtils.copiarPropriedades(endereco, enderecoAtual, "responsavel", "residentes");
+        domainEntityUtils.copiarPropriedades(endereco, enderecoAtual,
+                "responsavel", "eletrodomesticos", "residentes");
         enderecoRepository.save(enderecoAtual);
         return enderecoAtual;
     }
@@ -64,20 +65,20 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public void adicionarResidente(Endereco endereco, Pessoa pessoa) {
-        pessoa.adicionarEndereco(endereco);
+    public void adicionarResidente(Endereco endereco, Pessoa residente) {
+        residente.adicionarEndereco(endereco);
         var eletrodomesticos = new ArrayList<>(endereco.getEletrodomesticos());
-        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.adicionarUsuario(pessoa));
-        pessoaRepository.save(pessoa);
+        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.adicionarUsuario(residente));
+        pessoaRepository.save(residente);
     }
 
     @Override
     @Transactional
-    public void removerResidente(Endereco endereco, Pessoa pessoa) {
-        pessoa.removerEndereco(endereco);
+    public void removerResidente(Endereco endereco, Pessoa residente) {
+        residente.removerEndereco(endereco);
         var eletrodomesticos = new ArrayList<>(endereco.getEletrodomesticos());
-        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.removerUsuario(pessoa));
-        pessoaRepository.save(pessoa);
+        eletrodomesticos.forEach(eletrodomestico -> eletrodomestico.removerUsuario(residente));
+        pessoaRepository.save(residente);
     }
 
 }
