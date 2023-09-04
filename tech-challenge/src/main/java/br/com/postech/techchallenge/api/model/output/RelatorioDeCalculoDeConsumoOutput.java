@@ -2,6 +2,7 @@ package br.com.postech.techchallenge.api.model.output;
 
 import lombok.Data;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -12,7 +13,8 @@ public class RelatorioDeCalculoDeConsumoOutput {
     private String custoEstimado;
 
     public RelatorioDeCalculoDeConsumoOutput(Float consumo) {
-        this.consumo = consumo + " kWh";
+        final var decimalFormat = new DecimalFormat("0.00");
+        this.consumo = decimalFormat.format(consumo) + " kWh";
         this.custoEstimado = formatarValorMonetario(calcularCusto(consumo));
     }
 
