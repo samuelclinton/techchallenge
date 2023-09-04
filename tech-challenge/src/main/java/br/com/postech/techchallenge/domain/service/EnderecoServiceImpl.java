@@ -6,6 +6,8 @@ import br.com.postech.techchallenge.domain.model.Endereco;
 import br.com.postech.techchallenge.domain.model.Pessoa;
 import br.com.postech.techchallenge.domain.repository.EnderecoRepository;
 import br.com.postech.techchallenge.domain.repository.PessoaRepository;
+import br.com.postech.techchallenge.domain.repository.filter.EnderecoFilter;
+import br.com.postech.techchallenge.infrastructure.spec.EnderecoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +33,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public List<Endereco> listar() {
-        return enderecoRepository.findAll();
+    public List<Endereco> pesquisar(EnderecoFilter enderecoFilter) {
+        return enderecoRepository.findAll(EnderecoSpecs.usandoFiltro(enderecoFilter));
     }
 
     @Override

@@ -8,6 +8,7 @@ import br.com.postech.techchallenge.api.model.output.EnderecoOutput;
 import br.com.postech.techchallenge.api.model.output.EnderecoResumoOutput;
 import br.com.postech.techchallenge.domain.data.DomainEntityMapper;
 import br.com.postech.techchallenge.domain.model.Endereco;
+import br.com.postech.techchallenge.domain.repository.filter.EnderecoFilter;
 import br.com.postech.techchallenge.domain.service.EnderecoService;
 import br.com.postech.techchallenge.domain.service.PessoaService;
 import jakarta.validation.Valid;
@@ -35,8 +36,8 @@ public class EnderecoController {
     private DomainEntityMapper<EnderecoInputModel, EnderecoResumoOutput, Endereco> enderecoResumoMapper;
 
     @GetMapping
-    public List<EnderecoResumoOutput> listar() {
-        var enderecos = enderecoService.listar();
+    public List<EnderecoResumoOutput> listar(EnderecoFilter enderecoFilter) {
+        var enderecos = enderecoService.pesquisar(enderecoFilter);
         return enderecoResumoMapper.mapearEntidadesParaListaDeOutputs(enderecos, EnderecoResumoOutput.class);
     }
 
